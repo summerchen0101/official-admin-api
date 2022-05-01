@@ -1,0 +1,14 @@
+
+### 取得列表
+GET http://localhost:8080/user/list HTTP/1.1
+Content-Type: application/json
+
+### 新增
+POST http://localhost:8080/user/create HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "summer@gmail.com",
+  "name": "Summer",
+  "password": "aa1234"
+}
