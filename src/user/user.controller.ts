@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -9,7 +8,6 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  UseInterceptors,
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Serilizer } from 'src/interceptors/SerializerInterceptor';
