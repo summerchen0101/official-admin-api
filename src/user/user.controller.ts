@@ -2,24 +2,29 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import {
+  PrismaClientKnownRequestError,
+  PrismaClientValidationError,
+} from '@prisma/client/runtime';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('create')
+  @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     try {
-      return await this.userService.createUser(createUserDto);
+      return await this.userService.create(createUserDto);
     } catch (err) {
       if (
         err instanceof PrismaClientKnownRequestError &&
@@ -32,18 +37,27 @@ export class UserController {
     }
   }
 
-  @Get('list')
+  @Get()
   findAll() {
-    return this.userService.users({});
+    return this.userService.findAll({});
   }
 
-  @Post('update/:id')
+  @Get(':id')
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    try {
+      return await this.userService.findOne(id);
+    } catch (err) {
+      throw new BadRequestException(err.message);
+    }
+  }
+
+  @Patch('update/:id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
     try {
-      return await this.userService.updateUser(id, updateUserDto);
+      return await this.userService.update(id, updateUserDto);
     } catch (err) {
       if (
         err instanceof PrismaClientKnownRequestError &&
@@ -54,5 +68,10 @@ export class UserController {
         throw new BadRequestException(err.msg);
       }
     }
+  }
+
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.remove(id);
   }
 }

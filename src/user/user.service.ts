@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { User, Prisma } from '@prisma/client';
 import * as argon2 from 'argon2';
@@ -8,15 +12,17 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async user(
-    userWhereUniqueInput: Prisma.UserWhereUniqueInput,
-  ): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: userWhereUniqueInput,
+  async findOne(id: number): Promise<User | null> {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
     });
+    if (!user) {
+      throw new NotFoundException();
+    }
+    return user;
   }
 
-  async users(params: {
+  async findAll(params: {
     page?: number;
     perpage?: number;
     cursor?: Prisma.UserWhereUniqueInput;
@@ -33,26 +39,24 @@ export class UserService {
     });
   }
 
-  async createUser({
-    password,
-    ...data
-  }: Prisma.UserCreateInput): Promise<User> {
+  async create({ password, ...data }: Prisma.UserCreateInput): Promise<User> {
     const hash = await argon2.hash(password);
     return this.prisma.user.create({
       data: { ...data, password: hash },
     });
   }
 
-  async updateUser(id: number, data: UpdateUserDto): Promise<User> {
+  async update(id: number, data: UpdateUserDto): Promise<User> {
     return this.prisma.user.update({
       where: { id },
       data,
     });
   }
 
-  async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
+  async remove(id: number): Promise<User> {
+    const user = await this.findOne(id);
     return this.prisma.user.delete({
-      where,
+      where: { id: user.id },
     });
   }
 }
