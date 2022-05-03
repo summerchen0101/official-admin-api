@@ -22,19 +22,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    try {
-      return await this.userService.create(createUserDto);
-    } catch (err) {
-      if (
-        err instanceof PrismaClientKnownRequestError &&
-        err.code === 'P2002'
-      ) {
-        throw new BadRequestException('email重複');
-      } else {
-        throw new BadRequestException(err.msg);
-      }
-    }
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
   }
 
   @Get()

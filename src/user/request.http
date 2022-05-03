@@ -17,6 +17,16 @@ Content-Type: application/json
   "password": "aa1234"
 }
 
+### 註冊
+POST http://localhost:8080/auth/signup HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "summer99@gmail.com",
+  "name": "Summer99",
+  "password": "aa1234"
+}
+
 ### 更新
 PATCH http://localhost:8080/users/12 HTTP/1.1
 Content-Type: application/json

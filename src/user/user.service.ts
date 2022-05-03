@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 import * as argon2 from 'argon2';
 import { PrismaService } from '../prisma.service';
@@ -36,6 +40,12 @@ export class UserService {
   }
 
   async create({ password, ...data }: Prisma.UserCreateInput): Promise<User> {
+    const users = await this.prisma.user.findMany({
+      where: { email: data.email },
+    });
+    if (users.length) {
+      throw new BadRequestException('email in use');
+    }
     const hash = await argon2.hash(password);
     return this.prisma.user.create({
       data: { ...data, password: hash },
