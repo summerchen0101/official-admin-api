@@ -10,9 +10,11 @@ import {
   Patch,
   Post,
   Session,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Serilizer } from 'src/interceptors/SerializerInterceptor';
+import { User } from './decorators/user.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
@@ -29,10 +31,11 @@ export class UserController {
   }
 
   @Get()
-  findAll(@Session() session) {
+  findAll(@Session() session, @User() user) {
     if (!session.user_id) {
       throw new ForbiddenException();
     }
+    console.log(user);
     return this.userService.findAll({});
   }
 
