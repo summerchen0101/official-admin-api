@@ -4,12 +4,14 @@ import { SigninDto } from './dto/signin.dto';
 import { SignupDto } from './dto/signup.dto';
 import { UserService } from './user.service';
 import * as argon2 from 'argon2';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly userService: UserService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async signup(data: SignupDto) {
@@ -31,6 +33,11 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new BadRequestException('bad password');
     }
-    return user;
+    const token = this.jwtService.sign({ email: user.email, sub: user.id });
+
+    console.log(this.jwtService.verify(token));
+    return {
+      access_token: token,
+    };
   }
 }

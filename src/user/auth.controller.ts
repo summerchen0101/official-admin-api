@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { Serilizer } from 'src/interceptors/SerializerInterceptor';
 import { AuthService } from './auth.service';
 import { User } from './decorators/user.decorator';
@@ -16,11 +17,11 @@ import { SignupDto } from './dto/signup.dto';
 import { UserDto } from './dto/user.dto';
 
 @Controller('auth')
-@Serilizer(UserDto)
+// @Serilizer(UserDto)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('me')
   async me(@User() user) {
     return user;
@@ -37,11 +38,11 @@ export class AuthController {
 
   @Post('signin')
   async signin(@Body() signinDto: SigninDto, @Session() session) {
-    const user = await this.authService.signin(signinDto);
-    if (user) {
-      session.user_id = user.id;
-    }
-    return user;
+    const tokenObj = await this.authService.signin(signinDto);
+    // if (user) {
+    //   session.user_id = user.id;
+    // }
+    return tokenObj;
   }
 
   @Post('signout')
