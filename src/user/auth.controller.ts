@@ -1,6 +1,16 @@
-import { Body, Controller, Post, Session } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Session,
+  UseGuards,
+} from '@nestjs/common';
+import { plainToClass } from 'class-transformer';
+import { AuthGuard } from 'src/guards/auth.guard';
 import { Serilizer } from 'src/interceptors/SerializerInterceptor';
 import { AuthService } from './auth.service';
+import { User } from './decorators/user.decorator';
 import { SigninDto } from './dto/signin.dto';
 import { SignupDto } from './dto/signup.dto';
 import { UserDto } from './dto/user.dto';
@@ -9,6 +19,12 @@ import { UserDto } from './dto/user.dto';
 @Serilizer(UserDto)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @UseGuards(AuthGuard)
+  @Get('me')
+  async me(@User() user) {
+    return user;
+  }
 
   @Post('signup')
   async signup(@Body() signupDto: SignupDto, @Session() session) {

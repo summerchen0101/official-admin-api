@@ -10,10 +10,15 @@ import {
   Patch,
   Post,
   Session,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { Prisma, User as UserModal } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { classToPlain, plainToClass } from 'class-transformer';
+import { AuthGuard } from 'src/guards/auth.guard';
 import { Serilizer } from 'src/interceptors/SerializerInterceptor';
+import { PrismaService } from 'src/prisma.service';
 import { User } from './decorators/user.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -22,6 +27,7 @@ import { UserService } from './user.service';
 
 @Controller('users')
 @Serilizer(UserDto)
+@UseGuards(AuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -31,11 +37,7 @@ export class UserController {
   }
 
   @Get()
-  findAll(@Session() session, @User() user) {
-    if (!session.user_id) {
-      throw new ForbiddenException();
-    }
-    console.log(user);
+  findAll() {
     return this.userService.findAll({});
   }
 
