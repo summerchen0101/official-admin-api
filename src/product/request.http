@@ -12,19 +12,19 @@ POST http://localhost:8080/products HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "summer@gmail.com",
-  "name": "Summer",
-  "password": "aa1234"
+  "name": "Banana",
+  "price": 15,
+  "active": true,
+  "category_id": 1
 }
 
 ### 更新
-PATCH http://localhost:8080/products/12 HTTP/1.1
+PATCH http://localhost:8080/products/3 HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "summer@gmail.com",
-  "name": "Summer Chen",
-  "password": "aa1234"
+  "name": "Banana3",
+  "category_id": 3
 }
 
 ### 刪除
