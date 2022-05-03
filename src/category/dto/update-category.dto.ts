@@ -1,8 +1,4 @@
-import { Prisma } from '@prisma/client';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateCategoryDto } from './create-category.dto';
 
-export class UpdateCategoryDto implements Prisma.CategoryUpdateInput {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-}
+export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {}
