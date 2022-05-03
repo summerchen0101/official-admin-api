@@ -1,25 +1,24 @@
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
   ParseIntPipe,
-  BadRequestException,
+  Patch,
+  Post,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { CategoryService } from './category.service';
-import { plainToClass, plainToInstance } from 'class-transformer';
+import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('categorys')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
-  async create(@Body() body: Prisma.CategoryCreateInput) {
+  async create(@Body() body: CreateCategoryDto) {
     return await this.categoryService.create(body);
   }
 
@@ -36,7 +35,7 @@ export class CategoryController {
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: Prisma.CategoryUpdateInput,
+    @Body() body: UpdateCategoryDto,
   ) {
     return this.categoryService.update(id, body);
   }
