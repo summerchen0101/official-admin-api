@@ -20,7 +20,6 @@ import { UserService } from './user.service';
 
 @Controller('users')
 @Serilizer(UserDto)
-@UseGuards(AuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

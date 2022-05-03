@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from './../guards/jwt-auth.guard';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -6,6 +7,7 @@ import { AuthService } from './auth.service';
 import { UserMiddleware } from './middlewares/user.middleware';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -18,7 +20,11 @@ import { UserService } from './user.service';
     }),
   ],
   controllers: [UserController, AuthController],
-  providers: [UserService, AuthService],
+  providers: [
+    UserService,
+    AuthService,
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
+  ],
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -60,4 +60,4 @@ Content-Type: application/json
 ### 個人資料
 GET http://localhost:8080/auth/me HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1bW1lckBnbWFpbC5jb20iLCJzdWIiOjE0LCJpYXQiOjE2NTE2MDQ0MjQsImV4cCI6MTY1MTYwNDQzOX0.lrco9qIQCyaNAjHgv_MaJGdRmM1igCntLy1ZB4dntDw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1bW1lckBnbWFpbC5jb20iLCJzdWIiOjE0LCJpYXQiOjE2NTE2MDU1MjEsImV4cCI6MTY1MTYwNTUzNn0.UyYOnao7LPSiMJIOtUPHNAPjKc_eHoxZm8oDi6L_Dmc

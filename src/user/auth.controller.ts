@@ -15,13 +15,13 @@ import { User } from './decorators/user.decorator';
 import { SigninDto } from './dto/signin.dto';
 import { SignupDto } from './dto/signup.dto';
 import { UserDto } from './dto/user.dto';
+import { Public } from './metas/public.meta';
 
 @Controller('auth')
 // @Serilizer(UserDto)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get('me')
   async me(@User() user) {
     return user;
@@ -36,6 +36,7 @@ export class AuthController {
     return user;
   }
 
+  @Public()
   @Post('signin')
   async signin(@Body() signinDto: SigninDto, @Session() session) {
     const tokenObj = await this.authService.signin(signinDto);
