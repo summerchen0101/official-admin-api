@@ -3,11 +3,13 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   Param,
   ParseIntPipe,
   Patch,
   Post,
+  Session,
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Serilizer } from 'src/interceptors/SerializerInterceptor';
@@ -27,7 +29,10 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Session() session) {
+    if (!session.user_id) {
+      throw new ForbiddenException();
+    }
     return this.userService.findAll({});
   }
 

@@ -48,6 +48,11 @@ POST http://localhost:8080/auth/signin HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "summer99@gmail.com",
+  "email": "summer@gmail.com",
   "password": "aa1234"
 }
+
+### 登出
+POST http://localhost:8080/auth/signout HTTP/1.1
+Content-Type: application/json
+
