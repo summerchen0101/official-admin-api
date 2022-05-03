@@ -18,7 +18,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { classToPlain, plainToClass } from 'class-transformer';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Serilizer } from 'src/interceptors/SerializerInterceptor';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from './decorators/user.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
