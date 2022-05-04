@@ -1,20 +1,8 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Session,
-  UseGuards,
-} from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
-import { Serilizer } from 'src/interceptors/SerializerInterceptor';
+import { Body, Controller, Get, Post, Session } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { User } from './decorators/user.decorator';
 import { SigninDto } from './dto/signin.dto';
 import { SignupDto } from './dto/signup.dto';
-import { UserDto } from './dto/user.dto';
 import { Public } from './metas/public.meta';
 
 @Controller('auth')
