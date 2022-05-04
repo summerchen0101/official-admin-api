@@ -55,9 +55,10 @@ Content-Type: application/json
 ### 登出
 POST http://localhost:8080/auth/signout HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1bW1lckBnbWFpbC5jb20iLCJzdWIiOjE0LCJpYXQiOjE2NTE2MzgzODAsImV4cCI6MTY1MTYzODQwMH0.gPn7A2lfQ1F_MecZzzAS1ka1apy7aAJUNSHs4N3LiBc
 
 
 ### 個人資料
 GET http://localhost:8080/auth/me HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1bW1lckBnbWFpbC5jb20iLCJzdWIiOjE0LCJpYXQiOjE2NTE2MDU1MjEsImV4cCI6MTY1MTYwNTUzNn0.UyYOnao7LPSiMJIOtUPHNAPjKc_eHoxZm8oDi6L_Dmc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1bW1lckBnbWFpbC5jb20iLCJzdWIiOjE0LCJpYXQiOjE2NTE2MzgzODAsImV4cCI6MTY1MTYzODQwMH0.gPn7A2lfQ1F_MecZzzAS1ka1apy7aAJUNSHs4N3LiBc

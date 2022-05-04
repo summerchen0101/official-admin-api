@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Post, Session } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Post,
+  Request,
+  Session,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { AuthTokenService } from './auth_token.service';
 import { User } from './decorators/user.decorator';
 import { SigninDto } from './dto/signin.dto';
 import { SignupDto } from './dto/signup.dto';
@@ -8,7 +17,10 @@ import { Public } from './metas/public.meta';
 @Controller('auth')
 // @Serilizer(UserDto)
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly tokenService: AuthTokenService,
+  ) {}
 
   @Get('me')
   async me(@User() user) {
@@ -26,17 +38,16 @@ export class AuthController {
 
   @Public()
   @Post('signin')
-  async signin(@Body() signinDto: SigninDto, @Session() session) {
-    const tokenObj = await this.authService.signin(signinDto);
-    // if (user) {
-    //   session.user_id = user.id;
-    // }
-    return tokenObj;
+  signin(@Body() signinDto: SigninDto) {
+    return this.authService.signin(signinDto);
   }
 
   @Post('signout')
-  async signout(@Session() session) {
-    session.user_id = null;
-    return;
+  async signout(@Headers() headers) {
+    if (headers.authorization) {
+      const token = headers.authorization.replace('Bearer ', '');
+      const authToken = await this.tokenService.remove({ token });
+      return authToken.user_id;
+    }
   }
 }

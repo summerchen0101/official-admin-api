@@ -5,6 +5,7 @@ import { SignupDto } from './dto/signup.dto';
 import { UserService } from './user.service';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
+import { AuthTokenService } from './auth_token.service';
 
 @Injectable()
 export class AuthService {
@@ -12,6 +13,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly tokenService: AuthTokenService,
   ) {}
 
   async signup(data: SignupDto) {
@@ -21,7 +23,10 @@ export class AuthService {
     if (users.length) {
       throw new BadRequestException('email in use');
     }
-    return this.userService.create(data);
+    const user = await this.userService.create(data);
+    // const token = this.jwtService.sign({ email: user.email, sub: user.id });
+    // this.tokenService.create(user.id, token);
+    return user;
   }
 
   async signin({ email, password }: SigninDto) {
@@ -35,7 +40,12 @@ export class AuthService {
     }
     const token = this.jwtService.sign({ email: user.email, sub: user.id });
 
-    console.log(this.jwtService.verify(token));
+    const authToken = await this.tokenService.findOne({ user_id: user.id });
+    if (authToken) {
+      await this.tokenService.remove({ user_id: user.id });
+    }
+
+    await this.tokenService.create(user.id, token);
     return {
       access_token: token,
     };

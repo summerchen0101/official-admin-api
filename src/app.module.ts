@@ -8,7 +8,6 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './user/strategies/jwt.strategy';
-import { AuthTokenModule } from './auth_token/auth_token.module';
 
 @Module({
   imports: [
@@ -20,7 +19,6 @@ import { AuthTokenModule } from './auth_token/auth_token.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    AuthTokenModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],

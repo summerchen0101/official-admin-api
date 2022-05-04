@@ -8,6 +8,7 @@ import { UserMiddleware } from './middlewares/user.middleware';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { APP_GUARD } from '@nestjs/core';
+import { AuthTokenService } from './auth_token.service';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { APP_GUARD } from '@nestjs/core';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         secret: config.get('JWT_SECRET'),
-        signOptions: { expiresIn: '15s' },
+        signOptions: { expiresIn: '20s' },
       }),
     }),
   ],
@@ -23,6 +24,7 @@ import { APP_GUARD } from '@nestjs/core';
   providers: [
     UserService,
     AuthService,
+    AuthTokenService,
     { provide: APP_GUARD, useClass: JwtAuthGuard },
   ],
 })
