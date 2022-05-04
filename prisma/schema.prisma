@@ -30,8 +30,8 @@ model Announcement {
   id Int @id @default(autoincrement())
   title String
   content String
-  start_at DateTime?
-  end_at DateTime?
+  start_at DateTime? @db.Timestamp()
+  end_at DateTime? @db.Timestamp()
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   type AnnouncementType

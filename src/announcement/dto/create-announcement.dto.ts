@@ -1,22 +1,26 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { AnnouncementType } from '@prisma/client';
 import { IsEnum, IsMilitaryTime, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateAnnouncementDto {
   @IsNotEmpty()
   @IsEnum(AnnouncementType)
+  @ApiProperty({ enum: AnnouncementType })
   type: AnnouncementType;
 
   @IsNotEmpty()
   @IsString()
+  @ApiProperty({ default: '測試標題' })
   title: string;
 
   @IsNotEmpty()
   @IsString()
+  @ApiProperty({ default: '測試內容' })
   content: string;
 
-  @IsMilitaryTime()
-  start_at: string;
+  @ApiProperty()
+  start_at: Date;
 
-  @IsMilitaryTime()
-  end_at: string;
+  @ApiProperty()
+  end_at: Date;
 }
