@@ -1,14 +1,13 @@
-import { Global, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { AnnouncementModule } from './announcement/announcement.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CategoryModule } from './category/category.module';
-import { ProductModule } from './product/product.module';
-import { UserModule } from './user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
+import { ProductModule } from './product/product.module';
 import { JwtStrategy } from './user/strategies/jwt.strategy';
-import { AnnoucementModule } from './annoucement/annoucement.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -20,7 +19,7 @@ import { AnnoucementModule } from './annoucement/annoucement.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    AnnoucementModule,
+    AnnouncementModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],
