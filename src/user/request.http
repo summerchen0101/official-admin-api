@@ -38,7 +38,7 @@ POST http://localhost:8080/auth/signup HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "summer99@gmail.com",
+  "email": "summer90@gmail.com",
   "name": "Summer99",
   "password": "aa1234"
 }
@@ -61,4 +61,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1bW1lc
 ### 個人資料
 GET http://localhost:8080/auth/me HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1bW1lckBnbWFpbC5jb20iLCJzdWIiOjE0LCJpYXQiOjE2NTE2MzgzODAsImV4cCI6MTY1MTYzODQwMH0.gPn7A2lfQ1F_MecZzzAS1ka1apy7aAJUNSHs4N3LiBc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1bW1lcjkwQGdtYWlsLmNvbSIsInN1YiI6MTcsImlhdCI6MTY1MTY1MTE2NywiZXhwIjoxNjUxNjU0NzY3fQ.xCSLwHIZbLpOq2rUV4rRmW3EesQ_9ZbZjTTONYzxfoM

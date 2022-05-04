@@ -24,9 +24,11 @@ export class AuthService {
       throw new BadRequestException('email in use');
     }
     const user = await this.userService.create(data);
-    // const token = this.jwtService.sign({ email: user.email, sub: user.id });
-    // this.tokenService.create(user.id, token);
-    return user;
+    const token = this.jwtService.sign({ email: user.email, sub: user.id });
+    await this.tokenService.create(user.id, token);
+    return {
+      access_token: token,
+    };
   }
 
   async signin({ email, password }: SigninDto) {
