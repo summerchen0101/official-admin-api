@@ -16,7 +16,7 @@ import { AuthTokenService } from './auth_token.service';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         secret: config.get('JWT_SECRET'),
-        signOptions: { expiresIn: '20s' },
+        signOptions: { expiresIn: '1h' },
       }),
     }),
   ],
