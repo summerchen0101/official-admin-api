@@ -1,6 +1,11 @@
+import { PartialType } from '@nestjs/mapped-types';
 import { User as UserModal } from '@prisma/client';
-export class UpdateUserDto implements Partial<UserModal> {
+import { Exclude } from 'class-transformer';
+import { CreateUserDto } from './create-user.dto';
+export class UpdateUserDto extends PartialType(CreateUserDto) {
+  @Exclude()
   email: string;
-  name: string;
+
+  @Exclude()
   password: string;
 }
