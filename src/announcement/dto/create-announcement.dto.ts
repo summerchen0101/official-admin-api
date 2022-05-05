@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AnnouncementType } from '@prisma/client';
+import { AnnouncementType, Status, User } from '@prisma/client';
 import {
   IsDateString,
   IsEnum,
@@ -31,4 +31,8 @@ export class CreateAnnouncementDto {
   @ApiProperty()
   @IsDateString()
   end_at: Date;
+
+  @ApiProperty({ default: Status.ACTIVE })
+  @IsEnum(Status)
+  status: Status;
 }

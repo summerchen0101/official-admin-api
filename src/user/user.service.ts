@@ -1,3 +1,4 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import {
   BadRequestException,
   Injectable,
@@ -35,7 +36,7 @@ export class UserService {
       take: perpage,
       cursor,
       where,
-      orderBy,
+      orderBy: { id: 'desc' },
     });
   }
 
@@ -59,10 +60,16 @@ export class UserService {
     });
   }
 
-  async remove(id: number): Promise<User> {
-    const user = await this.findOne(id);
-    return this.prisma.user.delete({
-      where: { id: user.id },
-    });
+  async remove(id: number) {
+    await this.findOne(id);
+    try {
+      return await this.prisma.user.delete({ where: { id } });
+    } catch (err) {
+      if (err instanceof PrismaClientKnownRequestError) {
+        console.log(err.code);
+        console.log(err.message);
+      }
+      throw new BadRequestException('failed to delete');
+    }
   }
 }
