@@ -31,7 +31,7 @@ model User {
   type RoleType @default(USER)
   status UserStatus @default(ACTIVE)
   created_at DateTime @default(now())
-  updated_at DateTime @updatedAt @default(now())
+  updated_at DateTime @updatedAt
 }
 
 enum AnnouncementType {
@@ -78,7 +78,7 @@ model Category {
 model AuthToken {
   id  Int @id @default(autoincrement())
   token String @unique
-  user User @relation(fields: [user_id], references: [id])
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   user_id Int @unique
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
