@@ -1,11 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AnnouncementType, Status, User } from '@prisma/client';
+import { AnnouncementType, Platform, Status } from '@prisma/client';
 import {
-  IsDateString,
+  IsBoolean,
   IsEnum,
-  IsMilitaryTime,
+  IsInt,
+  IsISO8601,
   IsNotEmpty,
+  IsOptional,
   IsString,
+  IsUrl,
 } from 'class-validator';
 
 export class CreateAnnouncementDto {
@@ -25,14 +28,31 @@ export class CreateAnnouncementDto {
   content: string;
 
   @ApiProperty()
-  @IsDateString()
-  start_at: Date;
+  @IsISO8601()
+  @IsOptional()
+  start_at: string;
 
   @ApiProperty()
-  @IsDateString()
-  end_at: Date;
+  @IsISO8601()
+  @IsOptional()
+  end_at: string;
 
   @ApiProperty({ default: Status.ACTIVE })
   @IsEnum(Status)
   status: Status;
+
+  @IsEnum(Platform)
+  platform: Platform;
+
+  @IsUrl()
+  @IsOptional()
+  link: string;
+
+  @IsBoolean()
+  @IsOptional()
+  is_new_win: boolean;
+
+  @IsInt()
+  @IsOptional()
+  sort: number;
 }
