@@ -30,6 +30,8 @@ model User {
   auth_token AuthToken?
   type RoleType @default(USER)
   status UserStatus @default(ACTIVE)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt @default(now())
 }
 
 enum AnnouncementType {
