@@ -15,6 +15,12 @@ enum RoleType {
   ADMIN
 }
 
+enum UserStatus {
+  BLOCKED
+  ACTIVE
+  INACTIVE
+}
+
 model User {
   id    Int     @default(autoincrement()) @id
   email String  @unique
@@ -23,6 +29,7 @@ model User {
   prodcuts Product[]
   auth_token AuthToken?
   type RoleType @default(USER)
+  status UserStatus @default(ACTIVE)
 }
 
 enum AnnouncementType {
@@ -30,6 +37,11 @@ enum AnnouncementType {
   OPERATION
   EVENT
   SERVICE
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
 }
 
 model Announcement {
@@ -41,6 +53,7 @@ model Announcement {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   type AnnouncementType
+  status Status @default(ACTIVE)
 }
 
 model Product {
