@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class AuthTokenService {
   constructor(private readonly prisma: PrismaService) {}
-  create(user_id: number, token: string) {
+  create(user_id: string, token: string) {
     return this.prisma.authToken.create({ data: { user_id, token } });
   }
 
@@ -17,7 +17,7 @@ export class AuthTokenService {
     return this.prisma.authToken.findUnique({ where });
   }
 
-  update(user_id: number, token: string) {
+  update(user_id: string, token: string) {
     return this.prisma.authToken.update({
       where: { user_id },
       data: { token },

@@ -18,15 +18,15 @@ export class AnnouncementService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.announcement.findUnique({ where: { id } });
   }
 
-  update(id: number, data: UpdateAnnouncementDto) {
+  update(id: string, data: UpdateAnnouncementDto) {
     return this.prisma.announcement.update({ where: { id }, data });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.announcement.delete({ where: { id } });
   }
 }

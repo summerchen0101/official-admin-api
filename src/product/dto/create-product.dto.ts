@@ -15,5 +15,5 @@ export class CreateProductDto {
 
   @IsNotEmpty()
   @IsInt()
-  category_id: number;
+  category_id: string;
 }

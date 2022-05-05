@@ -32,7 +32,7 @@ export class AnnouncementController {
   @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.announcementService.findOne(+id);
+    return this.announcementService.findOne(id);
   }
 
   @Patch(':id')
@@ -40,11 +40,11 @@ export class AnnouncementController {
     @Param('id') id: string,
     @Body() updateAnnouncementDto: UpdateAnnouncementDto,
   ) {
-    return this.announcementService.update(+id, updateAnnouncementDto);
+    return this.announcementService.update(id, updateAnnouncementDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.announcementService.remove(+id);
+    return this.announcementService.remove(id);
   }
 }

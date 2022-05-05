@@ -4,5 +4,5 @@ import { CreateProductDto } from './create-product.dto';
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {
   @Exclude()
-  category_id?: number;
+  category_id?: string;
 }

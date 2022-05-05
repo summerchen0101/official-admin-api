@@ -23,7 +23,7 @@ export class CategoryService {
     return this.prisma.category.findMany();
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const category = await this.prisma.category.findUnique({ where: { id } });
     if (!category) {
       throw new NotFoundException();
@@ -31,12 +31,12 @@ export class CategoryService {
     return category;
   }
 
-  async update(id: number, data: Prisma.CategoryUpdateInput) {
+  async update(id: string, data: Prisma.CategoryUpdateInput) {
     const category = await this.findOne(id);
     return this.prisma.category.update({ where: { id: category.id }, data });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const category = await this.findOne(id);
     return this.prisma.category.delete({ where: { id: category.id } });
   }
