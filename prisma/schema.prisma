@@ -65,6 +65,7 @@ model Announcement {
   platform Platform @default(ALL)
   link String?
   is_new_win Boolean @default(false)
+  is_top Boolean @default(false)
   sort Int @default(autoincrement())
 }
 

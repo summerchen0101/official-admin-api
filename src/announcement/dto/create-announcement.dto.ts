@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AnnouncementType, Platform, Status } from '@prisma/client';
+import {
+  AnnouncementType,
+  Platform,
+  Status,
+  Announcement,
+} from '@prisma/client';
 import {
   IsBoolean,
   IsEnum,
@@ -11,7 +16,7 @@ import {
   IsUrl,
 } from 'class-validator';
 
-export class CreateAnnouncementDto {
+export class CreateAnnouncementDto implements Partial<Announcement> {
   @IsNotEmpty()
   @IsEnum(AnnouncementType)
   @ApiProperty({ enum: AnnouncementType })
@@ -30,12 +35,12 @@ export class CreateAnnouncementDto {
   @ApiProperty()
   @IsISO8601()
   @IsOptional()
-  start_at: string;
+  start_at: Date;
 
   @ApiProperty()
   @IsISO8601()
   @IsOptional()
-  end_at: string;
+  end_at: Date;
 
   @ApiProperty({ default: Status.ACTIVE })
   @IsEnum(Status)
@@ -55,4 +60,8 @@ export class CreateAnnouncementDto {
   @IsInt()
   @IsOptional()
   sort: number;
+
+  @IsBoolean()
+  @IsOptional()
+  is_top: boolean;
 }
