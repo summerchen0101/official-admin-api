@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma, Announcement } from '@prisma/client';
 import { PaginateQuery } from 'src/dto/paginate-query.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
@@ -12,9 +13,12 @@ export class AnnouncementService {
     return this.prisma.announcement.create({ data });
   }
 
-  findAll({ page, perpage, keyword }: SearchAnnouncements) {
-    console.log(keyword);
-    return this.prisma.announcement.findMany({
+  findAll({
+    page,
+    perpage,
+    keyword,
+  }: SearchAnnouncements): Promise<[Announcement[], number]> {
+    const findManyParam: Prisma.AnnouncementFindManyArgs = {
       where: {
         OR: [
           { title: { contains: keyword } },
@@ -24,7 +28,12 @@ export class AnnouncementService {
       orderBy: [{ is_top: 'desc' }, { sort: 'asc' }],
       take: perpage,
       skip: (page - 1) * perpage,
-    });
+    };
+
+    return this.prisma.$transaction([
+      this.prisma.announcement.findMany(findManyParam),
+      this.prisma.announcement.count({ where: findManyParam.where }),
+    ]);
   }
 
   findOne(id: string) {

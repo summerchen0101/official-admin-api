@@ -10,8 +10,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { Paginate } from 'src/decorators/paginate.decorator';
-import { PaginateQuery } from 'src/dto/paginate-query.dto';
 import { Public } from 'src/user/metas/public.meta';
 import { ResponseInterceptor } from '../interceptors/response.interceptor';
 import { AnnouncementService } from './announcement.service';
@@ -21,7 +19,6 @@ import { UpdateAnnouncementDto } from './dto/update-announcement.dto';
 
 @ApiBearerAuth()
 @Controller('announcements')
-@UseInterceptors(ResponseInterceptor)
 export class AnnouncementController {
   constructor(private readonly announcementService: AnnouncementService) {}
 
@@ -32,6 +29,7 @@ export class AnnouncementController {
 
   @Public()
   @Get()
+  @UseInterceptors(ResponseInterceptor)
   findAll(@Query() query: SearchAnnouncements) {
     return this.announcementService.findAll(query);
   }

@@ -1,16 +1,31 @@
-import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
-import { map, Observable } from 'rxjs';
+import {
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+} from '@nestjs/common';
+import { plainToClass } from 'class-transformer';
+import { map, Observable, tap } from 'rxjs';
+import { PaginateQuery } from 'src/dto/paginate-query.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+
+@Injectable()
 export class ResponseInterceptor implements NestInterceptor {
-  intercept(
+  constructor(private readonly prisma: PrismaService) {}
+
+  async intercept(
     context: ExecutionContext,
     next: CallHandler<any>,
-  ): Observable<any> | Promise<Observable<any>> {
-    const controller = context.getClass().name; // 取得controller name
-    const handler = context.getHandler().name; // 取得method name
+  ): Promise<Observable<any>> {
+    const req = context.switchToHttp().getRequest();
+    const paginate = plainToClass(PaginateQuery, req.query);
     return next.handle().pipe(
-      map((data) => ({
-        data,
-      })),
+      map(async ([list, count]) => {
+        return {
+          list,
+          paginate: { ...paginate, total: count },
+        };
+      }),
     );
   }
 }
