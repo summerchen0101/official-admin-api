@@ -6,12 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { Public } from 'src/user/metas/public.meta';
 import { AnnouncementService } from './announcement.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
 import { UpdateAnnouncementDto } from './dto/update-announcement.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { SearchAnnouncements } from './dto/search-announcements.dto';
 
 @ApiBearerAuth()
 @Controller('announcements')
@@ -25,8 +28,8 @@ export class AnnouncementController {
 
   @Public()
   @Get()
-  findAll() {
-    return this.announcementService.findAll();
+  findAll(@Query() query: SearchAnnouncements = {}) {
+    return this.announcementService.findAll(query);
   }
 
   @Public()

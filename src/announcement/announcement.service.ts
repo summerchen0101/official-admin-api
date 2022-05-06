@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
+import { SearchAnnouncements } from './dto/search-announcements.dto';
 import { UpdateAnnouncementDto } from './dto/update-announcement.dto';
 
 @Injectable()
@@ -11,10 +12,11 @@ export class AnnouncementService {
     return this.prisma.announcement.create({ data });
   }
 
-  findAll(where?: Prisma.AnnouncementWhereInput) {
+  findAll({ page, perpage }: SearchAnnouncements) {
     return this.prisma.announcement.findMany({
-      where,
       orderBy: [{ is_top: 'desc' }, { sort: 'asc' }],
+      take: perpage,
+      skip: (page - 1) * perpage,
     });
   }
 
