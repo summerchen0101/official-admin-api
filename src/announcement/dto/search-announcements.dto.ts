@@ -1,14 +1,8 @@
-import { Transform } from 'class-transformer';
-import { IsInt, IsOptional } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
+import { PaginateQuery } from 'src/dto/paginate-query.dto';
 
-export class SearchAnnouncements {
+export class SearchAnnouncements extends PaginateQuery {
+  @IsString()
   @IsOptional()
-  @IsInt()
-  @Transform(({ value }) => +value)
-  page?: number = 1;
-
-  @IsOptional()
-  @IsInt()
-  @Transform(({ value }) => +value)
-  perpage?: number = 10;
+  keyword = '';
 }

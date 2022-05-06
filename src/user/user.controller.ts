@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { Serilizer } from 'src/interceptors/SerializerInterceptor';
+import { Serilizer } from 'src/interceptors/serializer.interceptor';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';

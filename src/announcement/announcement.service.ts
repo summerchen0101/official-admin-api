@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { PaginateQuery } from 'src/dto/paginate-query.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
 import { SearchAnnouncements } from './dto/search-announcements.dto';
@@ -12,8 +12,15 @@ export class AnnouncementService {
     return this.prisma.announcement.create({ data });
   }
 
-  findAll({ page, perpage }: SearchAnnouncements) {
+  findAll({ page, perpage, keyword }: SearchAnnouncements) {
+    console.log(keyword);
     return this.prisma.announcement.findMany({
+      where: {
+        OR: [
+          { title: { contains: keyword } },
+          { content: { contains: keyword } },
+        ],
+      },
       orderBy: [{ is_top: 'desc' }, { sort: 'asc' }],
       take: perpage,
       skip: (page - 1) * perpage,
