@@ -14,7 +14,7 @@ export class AnnouncementService {
   findAll(where?: Prisma.AnnouncementWhereInput) {
     return this.prisma.announcement.findMany({
       where,
-      orderBy: { created_at: 'desc' },
+      orderBy: [{ is_top: 'desc' }, { sort: 'asc' }],
     });
   }
 
