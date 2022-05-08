@@ -13,11 +13,7 @@ export class AnnouncementService {
     return this.prisma.announcement.create({ data });
   }
 
-  findAll({
-    page,
-    perpage,
-    keyword,
-  }: SearchAnnouncements): Promise<[Announcement[], number]> {
+  findAll({ page, perpage, keyword }: SearchAnnouncements) {
     const findManyParam: Prisma.AnnouncementFindManyArgs = {
       where: {
         OR: [
@@ -33,6 +29,10 @@ export class AnnouncementService {
     return this.prisma.$transaction([
       this.prisma.announcement.findMany(findManyParam),
       this.prisma.announcement.count({ where: findManyParam.where }),
+      this.prisma.announcement.aggregate({
+        where: findManyParam.where,
+        _count: { _all: true, link: true },
+      }),
     ]);
   }
 
