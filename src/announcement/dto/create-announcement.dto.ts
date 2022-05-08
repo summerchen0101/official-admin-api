@@ -4,6 +4,7 @@ import {
   Platform,
   Status,
   Announcement,
+  Prisma,
 } from '@prisma/client';
 import {
   IsBoolean,
@@ -16,7 +17,7 @@ import {
   IsUrl,
 } from 'class-validator';
 
-export class CreateAnnouncementDto implements Partial<Announcement> {
+export class CreateAnnouncementDto implements Prisma.AnnouncementCreateInput {
   @IsNotEmpty()
   @IsEnum(AnnouncementType)
   @ApiProperty({ enum: AnnouncementType })
