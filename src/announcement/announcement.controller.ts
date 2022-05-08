@@ -7,11 +7,9 @@ import {
   Patch,
   Post,
   Query,
-  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Public } from 'src/user/metas/public.meta';
-import { ResponseInterceptor } from '../interceptors/response.interceptor';
 import { AnnouncementService } from './announcement.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
 import { SearchAnnouncements } from './dto/search-announcements.dto';

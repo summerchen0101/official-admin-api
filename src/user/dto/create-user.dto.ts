@@ -1,4 +1,4 @@
-import { Prisma, RoleType } from '@prisma/client';
+import { Prisma, RoleType, User } from '@prisma/client';
 import {
   IsBoolean,
   IsEmail,
@@ -10,7 +10,7 @@ import {
 export class CreateUserDto implements Prisma.UserCreateInput {
   @IsNotEmpty()
   @IsEnum(RoleType)
-  type: RoleType;
+  role: RoleType;
 
   @IsNotEmpty()
   @IsEmail()
@@ -26,5 +26,5 @@ export class CreateUserDto implements Prisma.UserCreateInput {
 
   @IsNotEmpty()
   @IsBoolean()
-  status: boolean;
+  is_active?: boolean;
 }

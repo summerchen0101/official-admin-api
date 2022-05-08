@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { RoleType } from '@prisma/client';
@@ -14,6 +15,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { RoleAuthGuard } from 'src/guards/role-auth.guard';
 import { Serilizer } from 'src/interceptors/serializer.interceptor';
 import { CreateUserDto } from './dto/create-user.dto';
+import { SearchUserDto } from './dto/search-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
 import { Roles } from './metas/roles.meta';
@@ -32,8 +34,8 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll({});
+  findAll(@Query() query: SearchUserDto) {
+    return this.userService.findAll(query);
   }
 
   @Get(':id')

@@ -14,7 +14,7 @@ export class AnnouncementService {
 
   async findAll(search: SearchAnnouncements) {
     const { page, perpage, keyword } = search;
-    const findManyParam: Prisma.AnnouncementFindManyArgs = {
+    const findManyArgs: Prisma.AnnouncementFindManyArgs = {
       where: {
         OR: [
           { title: { contains: keyword } },
@@ -28,13 +28,13 @@ export class AnnouncementService {
 
     const [items, count_all, count_is_active, count_is_top] =
       await this.prisma.$transaction([
-        this.prisma.announcement.findMany(findManyParam),
-        this.prisma.announcement.count({ where: findManyParam.where }),
+        this.prisma.announcement.findMany(findManyArgs),
+        this.prisma.announcement.count({ where: findManyArgs.where }),
         this.prisma.announcement.count({
-          where: { ...findManyParam.where, is_active: true },
+          where: { ...findManyArgs.where, is_active: true },
         }),
         this.prisma.announcement.count({
-          where: { ...findManyParam.where, is_top: true },
+          where: { ...findManyArgs.where, is_top: true },
         }),
       ]);
 

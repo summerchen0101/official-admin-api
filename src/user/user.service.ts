@@ -8,6 +8,7 @@ import { Prisma, User } from '@prisma/client';
 import * as argon2 from 'argon2';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SearchUserDto } from './dto/search-user.dto';
 
 @Injectable()
 export class UserService {
@@ -23,30 +24,35 @@ export class UserService {
     return user;
   }
 
-  async findAll(params: {
-    page?: number;
-    perpage?: number;
-    cursor?: Prisma.UserWhereUniqueInput;
-    where?: Prisma.UserWhereInput;
-    orderBy?: Prisma.UserOrderByWithRelationInput;
-  }) {
-    const { page, perpage, cursor, where, orderBy } = params;
+  async findAll(search: SearchUserDto) {
+    const { page, perpage, email, name, is_active } = search;
     const findManyArgs: Prisma.UserFindManyArgs = {
-      skip: page ? (page - 1) * perpage : undefined,
+      where: {
+        email,
+        name,
+        is_active,
+      },
+      orderBy: [{ id: 'desc' }],
       take: perpage,
-      cursor,
-      where,
-      orderBy: { id: 'desc' },
+      skip: (page - 1) * perpage,
     };
 
-    return this.prisma.$transaction([
+    const [items, count_all, count_is_active] = await this.prisma.$transaction([
       this.prisma.user.findMany(findManyArgs),
       this.prisma.user.count({ where: findManyArgs.where }),
-      this.prisma.user.aggregate({
-        where: findManyArgs.where,
-        _count: { _all: true },
+      this.prisma.user.count({
+        where: { ...findManyArgs.where, is_active: true },
       }),
     ]);
+
+    return {
+      items,
+      counts: {
+        all: count_all,
+        is_active: count_is_active,
+      },
+      search,
+    };
   }
 
   async create({ password, ...data }: Prisma.UserCreateInput): Promise<User> {

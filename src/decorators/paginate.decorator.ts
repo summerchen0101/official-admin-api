@@ -1,10 +1,10 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { PaginateQuery } from 'src/dto/paginate-query.dto';
+import { PaginateDto } from 'src/dto/paginate.dto';
 
 export const Paginate = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const req = ctx.switchToHttp().getRequest();
-    return plainToClass(PaginateQuery, req.query);
+    return plainToClass(PaginateDto, req.query);
   },
 );
