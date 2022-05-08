@@ -1,5 +1,11 @@
-import { Prisma, RoleType, UserStatus } from '@prisma/client';
-import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { Prisma, RoleType } from '@prisma/client';
+import {
+  IsBoolean,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+} from 'class-validator';
 
 export class CreateUserDto implements Prisma.UserCreateInput {
   @IsNotEmpty()
@@ -19,6 +25,6 @@ export class CreateUserDto implements Prisma.UserCreateInput {
   password: string;
 
   @IsNotEmpty()
-  @IsEnum(UserStatus)
-  status: UserStatus;
+  @IsBoolean()
+  status: boolean;
 }

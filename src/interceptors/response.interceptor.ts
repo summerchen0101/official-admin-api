@@ -18,13 +18,13 @@ export class ResponseInterceptor implements NestInterceptor {
     next: CallHandler<any>,
   ): Promise<Observable<any>> {
     const req = context.switchToHttp().getRequest();
-    const paginate = plainToClass(PaginateQuery, req.query);
+    const { page, perpage } = plainToClass(PaginateQuery, req.query);
     return next.handle().pipe(
-      map(async ([list, count, meta]) => {
+      map(async ({ list, counts, ...rest }) => {
         return {
           list,
-          paginate: { ...paginate, total: count },
-          meta,
+          counts,
+          ...rest,
         };
       }),
     );

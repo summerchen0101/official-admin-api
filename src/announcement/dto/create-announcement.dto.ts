@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   AnnouncementType,
   Platform,
-  Status,
   Announcement,
   Prisma,
 } from '@prisma/client';
@@ -43,9 +42,9 @@ export class CreateAnnouncementDto implements Prisma.AnnouncementCreateInput {
   @IsOptional()
   end_at: Date;
 
-  @ApiProperty({ default: Status.ACTIVE })
-  @IsEnum(Status)
-  status: Status;
+  @ApiProperty({ default: true })
+  @IsBoolean()
+  status: boolean;
 
   @IsEnum(Platform)
   platform: Platform;

@@ -15,11 +15,6 @@ enum RoleType {
   ADMIN
 }
 
-enum UserStatus {
-  BLOCKED
-  ACTIVE
-  INACTIVE
-}
 
 model User {
   id    String  @id @default(cuid())
@@ -29,7 +24,7 @@ model User {
   prodcuts Product[]
   auth_token AuthToken?
   role RoleType @default(USER)
-  status UserStatus @default(ACTIVE)
+  is_active Boolean @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
@@ -41,10 +36,6 @@ enum AnnouncementType {
   SERVICE
 }
 
-enum Status {
-  ACTIVE
-  INACTIVE
-}
 
 enum Platform {
   MAIN
@@ -61,7 +52,7 @@ model Announcement {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   type AnnouncementType
-  status Status @default(ACTIVE)
+  is_active Boolean @default(true)
   platform Platform @default(ALL)
   link String?
   is_new_win Boolean @default(false)

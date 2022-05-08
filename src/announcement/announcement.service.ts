@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, Announcement } from '@prisma/client';
-import { PaginateQuery } from 'src/dto/paginate-query.dto';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
 import { SearchAnnouncements } from './dto/search-announcements.dto';
@@ -13,7 +12,8 @@ export class AnnouncementService {
     return this.prisma.announcement.create({ data });
   }
 
-  findAll({ page, perpage, keyword }: SearchAnnouncements) {
+  async findAll(search: SearchAnnouncements) {
+    const { page, perpage, keyword } = search;
     const findManyParam: Prisma.AnnouncementFindManyArgs = {
       where: {
         OR: [
@@ -26,14 +26,27 @@ export class AnnouncementService {
       skip: (page - 1) * perpage,
     };
 
-    return this.prisma.$transaction([
-      this.prisma.announcement.findMany(findManyParam),
-      this.prisma.announcement.count({ where: findManyParam.where }),
-      this.prisma.announcement.aggregate({
-        where: findManyParam.where,
-        _count: { _all: true, link: true },
-      }),
-    ]);
+    const [items, count_all, count_is_active, count_is_top] =
+      await this.prisma.$transaction([
+        this.prisma.announcement.findMany(findManyParam),
+        this.prisma.announcement.count({ where: findManyParam.where }),
+        this.prisma.announcement.count({
+          where: { ...findManyParam.where, is_active: true },
+        }),
+        this.prisma.announcement.count({
+          where: { ...findManyParam.where, is_top: true },
+        }),
+      ]);
+
+    return {
+      items,
+      counts: {
+        all: count_all,
+        is_active: count_is_active,
+        is_top: count_is_top,
+      },
+      search,
+    };
   }
 
   findOne(id: string) {

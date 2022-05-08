@@ -29,7 +29,6 @@ export class AnnouncementController {
 
   @Public()
   @Get()
-  @UseInterceptors(ResponseInterceptor)
   findAll(@Query() query: SearchAnnouncements) {
     return this.announcementService.findAll(query);
   }

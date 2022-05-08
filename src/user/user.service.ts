@@ -29,15 +29,24 @@ export class UserService {
     cursor?: Prisma.UserWhereUniqueInput;
     where?: Prisma.UserWhereInput;
     orderBy?: Prisma.UserOrderByWithRelationInput;
-  }): Promise<User[]> {
+  }) {
     const { page, perpage, cursor, where, orderBy } = params;
-    return this.prisma.user.findMany({
+    const findManyArgs: Prisma.UserFindManyArgs = {
       skip: page ? (page - 1) * perpage : undefined,
       take: perpage,
       cursor,
       where,
       orderBy: { id: 'desc' },
-    });
+    };
+
+    return this.prisma.$transaction([
+      this.prisma.user.findMany(findManyArgs),
+      this.prisma.user.count({ where: findManyArgs.where }),
+      this.prisma.user.aggregate({
+        where: findManyArgs.where,
+        _count: { _all: true },
+      }),
+    ]);
   }
 
   async create({ password, ...data }: Prisma.UserCreateInput): Promise<User> {
