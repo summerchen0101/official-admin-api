@@ -16,7 +16,6 @@ export class RoleAuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
-    console.log({ allowRoles, user });
     if (!allowRoles) {
       return true;
     }

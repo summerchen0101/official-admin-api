@@ -65,10 +65,6 @@ export class UserService {
     try {
       return await this.prisma.user.delete({ where: { id } });
     } catch (err) {
-      if (err instanceof PrismaClientKnownRequestError) {
-        console.log(err.code);
-        console.log(err.message);
-      }
       throw new BadRequestException('failed to delete');
     }
   }
