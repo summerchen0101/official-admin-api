@@ -28,7 +28,7 @@ model User {
   password String
   prodcuts Product[]
   auth_token AuthToken?
-  type RoleType @default(USER)
+  role RoleType @default(USER)
   status UserStatus @default(ACTIVE)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

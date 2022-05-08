@@ -27,6 +27,7 @@ import { AuthTokenService } from './auth_token.service';
     AuthTokenService,
     { provide: APP_GUARD, useClass: JwtAuthGuard },
   ],
+  exports: [UserService],
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

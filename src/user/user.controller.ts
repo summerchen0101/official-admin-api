@@ -5,21 +5,24 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { RoleType } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { RoleAuthGuard } from 'src/guards/role-auth.guard';
 import { Serilizer } from 'src/interceptors/serializer.interceptor';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
+import { Roles } from './metas/roles.meta';
 import { UserService } from './user.service';
 
 @Controller('users')
 @Serilizer(UserDto)
+@UseGuards(RoleAuthGuard)
+@Roles(RoleType.ADMIN)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

@@ -20,12 +20,11 @@ export class ResponseInterceptor implements NestInterceptor {
     const req = context.switchToHttp().getRequest();
     const paginate = plainToClass(PaginateQuery, req.query);
     return next.handle().pipe(
-      map(async ([list, count, meta, test]) => {
+      map(async ([list, count, meta]) => {
         return {
           list,
           paginate: { ...paginate, total: count },
           meta,
-          test,
         };
       }),
     );
