@@ -1,4 +1,4 @@
-import { Prisma, RoleType, User } from '@prisma/client';
+import { Prisma, RoleType } from '@prisma/client';
 import {
   IsBoolean,
   IsEmail,
