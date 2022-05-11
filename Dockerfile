@@ -4,13 +4,12 @@ WORKDIR /app
 
 COPY package.json .
 COPY yarn.lock .
+RUN yarn
 
 COPY prisma ./prisma/
 COPY .env ./
-COPY tsconfig.json ./
-COPY . .
-RUN yarn
 RUN npx prisma generate
+COPY . .
 
 # RUN yarn build
 
