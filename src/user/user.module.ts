@@ -9,6 +9,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthTokenService } from './auth_token.service';
+import { DefaultUserMiddleware } from './middlewares/default-user.middleware';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AuthTokenService } from './auth_token.service';
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    consumer.apply(DefaultUserMiddleware).forRoutes('*');
     consumer.apply(UserMiddleware).forRoutes('*');
   }
 }

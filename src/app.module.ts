@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AnnouncementModule } from './announcement/announcement.module';
 import { AppController } from './app.controller';
@@ -24,4 +24,8 @@ import { UserModule } from './user/user.module';
   controllers: [AppController],
   providers: [AppService, JwtStrategy],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // throw new Error('Method not implemented.');
+  }
+}

@@ -32,8 +32,8 @@ export class UserService {
         is_active,
       },
       orderBy: [{ id: 'desc' }],
-      take: perpage,
-      skip: (page - 1) * perpage,
+      take: perpage || 10,
+      skip: (page - 1) * perpage || 0,
     };
 
     const [items, count_all, count_is_active] = await this.prisma.$transaction([
