@@ -36,3 +36,7 @@ lerna-debug.log*
 
 # REST Client
 *.http
+
+# Env
+.env
+.env.*
