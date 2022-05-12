@@ -25,13 +25,11 @@ export class AnnouncementController {
     return this.announcementService.create(createAnnouncementDto);
   }
 
-  @Public()
   @Get()
   findAll(@Query() query: SearchAnnouncements) {
     return this.announcementService.findAll(query);
   }
 
-  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.announcementService.findOne(id);
