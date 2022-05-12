@@ -7,9 +7,10 @@ COPY yarn.lock .
 RUN yarn
 
 COPY prisma ./prisma/
-COPY .env ./
 RUN npx prisma generate
 COPY . .
+COPY .env.production ./.env
+RUN rm .env.production
 
 # RUN yarn build
 
