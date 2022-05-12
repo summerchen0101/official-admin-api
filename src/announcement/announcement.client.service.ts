@@ -15,6 +15,7 @@ export class AnnouncementClientService {
     const { page = 1, perpage = 10, platform, type } = search;
     const findManyArgs: Prisma.AnnouncementFindManyArgs = {
       where: {
+        is_active: true,
         platform: {
           in: [platform, Platform.ALL],
         },

@@ -44,7 +44,7 @@ export class CreateAnnouncementDto implements Prisma.AnnouncementCreateInput {
   @IsEnum(Platform)
   platform: Platform;
 
-  @IsUrl()
+  @IsString()
   @IsOptional()
   link: string;
 
