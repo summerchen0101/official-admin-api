@@ -1,13 +1,15 @@
 import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
+import { Serilizer } from 'src/interceptors/serializer.interceptor';
 import { AuthService } from './auth.service';
 import { AuthTokenService } from './auth_token.service';
 import { User } from './decorators/user.decorator';
 import { SigninDto } from './dto/signin.dto';
 import { SignupDto } from './dto/signup.dto';
+import { UserDto } from './dto/user.dto';
 import { Public } from './metas/public.meta';
 
 @Controller('auth')
-// @Serilizer(UserDto)
+@Serilizer(UserDto)
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
