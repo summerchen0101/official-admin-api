@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { SearchOperationRecDto } from './dto/search.operation_rec.dto';
 import { OperationRecService } from './operation_rec.service';
 
-@Controller('operation-rec')
+@Controller('operations')
 export class OperationRecController {
   constructor(private readonly operationRecService: OperationRecService) {}
 
@@ -20,8 +22,8 @@ export class OperationRecController {
   }
 
   @Get()
-  findAll() {
-    return this.operationRecService.findAll();
+  findAll(@Query() query: SearchOperationRecDto) {
+    return this.operationRecService.findAll(query);
   }
 
   @Get(':id')

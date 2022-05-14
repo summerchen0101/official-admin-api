@@ -1,18 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { SearchOperationRecDto } from './dto/search.operation_rec.dto';
 
 @Injectable()
 export class OperationRecService {
   constructor(private readonly prisma: PrismaService) {}
-  async create(data: Prisma.OperationRecCreateInput) {
-    const operationRec = await this.prisma.operationRec.create({ data });
-    console.log(operationRec);
-    return operationRec;
+  create(data: Prisma.OperationRecCreateInput) {
+    return this.prisma.operationRec.create({ data });
   }
 
-  findAll() {
-    return this.prisma.operationRec.findMany();
+  findAll(data: SearchOperationRecDto) {
+    const { controller, target_id, operator_id } = data;
+    return this.prisma.operationRec.findMany({
+      where: { controller, operator_id },
+    });
   }
 
   findOne(id: number) {
