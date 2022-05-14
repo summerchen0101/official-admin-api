@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { SearchOperationRecDto } from './dto/search.operation_rec.dto';
+import { SearchOperationRecDto } from './dto/search-operation_rec.dto';
 import { OperationRecService } from './operation_rec.service';
 
 @Controller('operations')

@@ -1,6 +1,6 @@
-import { OperationRec, Prisma } from '@prisma/client';
 import { IsOptional, IsString } from 'class-validator';
-export class SearchOperationRecDto implements Partial<OperationRec> {
+import { PaginateDto } from 'src/dto/paginate.dto';
+export class SearchOperationRecDto extends PaginateDto {
   @IsString()
   @IsOptional()
   controller?: string;

@@ -38,8 +38,9 @@ model OperationRec {
   operator_id String
   reqBody Json?
   path String
-  params Json?
+  target_id String?
   method String
+  operated_at DateTime @default(now())
 }
 
 

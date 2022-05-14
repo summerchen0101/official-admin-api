@@ -44,25 +44,14 @@ export class AnnouncementService {
       skip: (page - 1) * perpage,
     };
 
-    const [items, count_all, count_is_active, count_is_top] =
-      await this.prisma.$transaction([
-        this.prisma.announcement.findMany(findManyArgs),
-        this.prisma.announcement.count({ where: findManyArgs.where }),
-        this.prisma.announcement.count({
-          where: { ...findManyArgs.where, is_active: true },
-        }),
-        this.prisma.announcement.count({
-          where: { ...findManyArgs.where, is_top: true },
-        }),
-      ]);
+    const [items, count] = await this.prisma.$transaction([
+      this.prisma.announcement.findMany(findManyArgs),
+      this.prisma.announcement.count({ where: findManyArgs.where }),
+    ]);
 
     return {
       items,
-      counts: {
-        all: count_all,
-        is_active: count_is_active,
-        is_top: count_is_top,
-      },
+      count,
       search,
     };
   }
