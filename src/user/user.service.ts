@@ -71,10 +71,16 @@ export class UserService {
     id: string,
     { password, ...data }: UpdateUserDto,
   ): Promise<User> {
-    const hash = await argon2.hash(password);
+    if (password) {
+      const hash = await argon2.hash(password);
+      return this.prisma.user.update({
+        where: { id },
+        data: { ...data, password: hash },
+      });
+    }
     return this.prisma.user.update({
       where: { id },
-      data: { ...data, password: hash },
+      data,
     });
   }
 
