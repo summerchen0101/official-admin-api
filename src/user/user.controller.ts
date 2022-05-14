@@ -13,6 +13,7 @@ import {
 import { RoleType } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { RoleAuthGuard } from 'src/guards/role-auth.guard';
+import { Operation } from 'src/interceptors/operation.interceptor';
 import { Serilizer } from 'src/interceptors/serializer.interceptor';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
@@ -24,6 +25,7 @@ import { UserService } from './user.service';
 @Controller('users')
 @Serilizer(UserDto)
 @UseGuards(RoleAuthGuard)
+@Operation()
 @Roles(RoleType.ADMIN)
 export class UserController {
   constructor(private readonly userService: UserService) {}
