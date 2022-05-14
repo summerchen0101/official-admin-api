@@ -36,7 +36,7 @@ export class AuthController {
     if (headers.authorization) {
       const token = headers.authorization.replace('Bearer ', '');
       const authToken = await this.tokenService.remove({ token });
-      return authToken.user_id;
+      return { success: true, user_id: authToken.user_id };
     }
   }
 }
