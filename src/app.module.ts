@@ -8,6 +8,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ProductModule } from './product/product.module';
 import { JwtStrategy } from './user/strategies/jwt.strategy';
 import { UserModule } from './user/user.module';
+import { OperationRecModule } from './operation_rec/operation_rec.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UserModule } from './user/user.module';
       envFilePath: '.env',
     }),
     AnnouncementModule,
+    OperationRecModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],
