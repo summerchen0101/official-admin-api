@@ -67,10 +67,14 @@ export class UserService {
     });
   }
 
-  async update(id: string, data: UpdateUserDto): Promise<User> {
+  async update(
+    id: string,
+    { password, ...data }: UpdateUserDto,
+  ): Promise<User> {
+    const hash = await argon2.hash(password);
     return this.prisma.user.update({
       where: { id },
-      data,
+      data: { ...data, password: hash },
     });
   }
 
