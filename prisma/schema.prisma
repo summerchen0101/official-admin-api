@@ -37,9 +37,9 @@ model OperationRec {
   operator User @relation(fields: [operator_id], references: [id])
   operator_id String
   reqBody Json?
-  reqPath String
-  route String
-  resData Json?
+  path String
+  params Json?
+  method String
 }
 
 
