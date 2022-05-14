@@ -9,6 +9,8 @@ import { ProductModule } from './product/product.module';
 import { JwtStrategy } from './user/strategies/jwt.strategy';
 import { UserModule } from './user/user.module';
 import { OperationRecModule } from './operation_rec/operation_rec.module';
+import { PermissionModule } from './permission/permission.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { OperationRecModule } from './operation_rec/operation_rec.module';
     }),
     AnnouncementModule,
     OperationRecModule,
+    PermissionModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],

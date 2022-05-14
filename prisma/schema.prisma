@@ -10,10 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum RoleType {
-  USER
-  ADMIN
-}
 
 
 model User {
@@ -24,10 +20,28 @@ model User {
   prodcuts Product[]
   auth_token AuthToken?
   operations OperationRec[]
-  role RoleType @default(USER)
+  role Role @relation(fields: [role_id], references: [id])
+  role_id String
   is_active Boolean @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+}
+
+model Permission {
+  id    String  @id @default(cuid())
+  name  String
+  controller String
+  handler String
+  role Role[]
+}
+
+model Role {
+  id    String  @id @default(cuid())
+  name String
+  code String @unique
+  permissions Permission[]
+  users User[]
+
 }
 
 model OperationRec {

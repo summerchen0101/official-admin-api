@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SigninDto } from './dto/signin.dto';
-import { SignupDto } from './dto/signup.dto';
 import { UserService } from './user.service';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
@@ -15,21 +14,6 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly tokenService: AuthTokenService,
   ) {}
-
-  async signup(data: SignupDto) {
-    const users = await this.prisma.user.findMany({
-      where: { email: data.email },
-    });
-    if (users.length) {
-      throw new BadRequestException('email in use');
-    }
-    const user = await this.userService.create(data);
-    const token = this.jwtService.sign({ email: user.email, sub: user.id });
-    await this.tokenService.create(user.id, token);
-    return {
-      access_token: token,
-    };
-  }
 
   async signin({ email, password }: SigninDto) {
     const user = await this.prisma.user.findUnique({ where: { email } });

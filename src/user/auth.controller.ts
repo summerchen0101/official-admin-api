@@ -4,7 +4,6 @@ import { AuthService } from './auth.service';
 import { AuthTokenService } from './auth_token.service';
 import { User } from './decorators/user.decorator';
 import { SigninDto } from './dto/signin.dto';
-import { SignupDto } from './dto/signup.dto';
 import { UserDto } from './dto/user.dto';
 import { Public } from './metas/public.meta';
 
@@ -19,12 +18,6 @@ export class AuthController {
   @Get('me')
   async me(@User() user) {
     return user;
-  }
-
-  @Public()
-  @Post('signup')
-  async signup(@Body() signupDto: SignupDto) {
-    return this.authService.signup(signupDto);
   }
 
   @Public()

@@ -10,29 +10,29 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { RoleType } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { RoleAuthGuard } from 'src/guards/role-auth.guard';
 import { Operation } from 'src/interceptors/operation.interceptor';
 import { Serilizer } from 'src/interceptors/serializer.interceptor';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
-import { Roles } from './metas/roles.meta';
 import { UserService } from './user.service';
 
 @Controller('users')
 @Serilizer(UserDto)
-@UseGuards(RoleAuthGuard)
 @Operation()
-@Roles(RoleType.ADMIN)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  create(@Body() { role_id, ...data }: CreateUserDto) {
+    return this.userService.create({
+      ...data,
+      role: {
+        connect: { id: role_id },
+      },
+    });
   }
 
   @Get()
