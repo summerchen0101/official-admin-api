@@ -1,4 +1,3 @@
-import { OperationRecService } from './../operation_rec/operation_rec.service';
 import {
   CallHandler,
   ExecutionContext,
@@ -6,14 +5,14 @@ import {
   NestInterceptor,
   UseInterceptors,
 } from '@nestjs/common';
-import { ClassConstructor, plainToClass } from 'class-transformer';
 import { map, Observable } from 'rxjs';
+import { OperationRecService } from './../operation_rec/operation_rec.service';
 
 export function Operation() {
   return UseInterceptors(OperationInterceptor);
 }
 @Injectable()
-export class OperationInterceptor<T> implements NestInterceptor {
+export class OperationInterceptor implements NestInterceptor {
   constructor(private operationRecService: OperationRecService) {}
   async intercept(
     context: ExecutionContext,
@@ -25,6 +24,9 @@ export class OperationInterceptor<T> implements NestInterceptor {
     return next.handle().pipe(
       map(async (data) => {
         if (req.method !== 'GET') {
+          if (req.body.password) {
+            req.body.password = '***';
+          }
           const result = await this.operationRecService.create({
             controller: reqClass.name,
             handler: reqHandler.name,
