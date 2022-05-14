@@ -1,4 +1,3 @@
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import {
   BadRequestException,
   Controller,
@@ -7,11 +6,10 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { AnnouncementType, Platform } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Public } from 'src/user/metas/public.meta';
 import { AnnouncementClientService } from './announcement.client.service';
-import { AnnouncementService } from './announcement.service';
-import { SearchAnnouncements } from './dto/search-announcements.dto';
+import { ClientSearchAnnouncementsDto } from './dto/client-search-announcements.dto';
 
 @ApiBearerAuth()
 @Controller('public/announcements')
@@ -22,12 +20,7 @@ export class AnnouncementClientController {
   @Get()
   async findAll(
     @Query()
-    query: {
-      page: number;
-      perpage: number;
-      platform: Platform;
-      type: AnnouncementType;
-    },
+    query: ClientSearchAnnouncementsDto,
   ) {
     try {
       return await this.service.findAll(query);

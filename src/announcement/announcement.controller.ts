@@ -14,7 +14,7 @@ import { Operation } from 'src/interceptors/operation.interceptor';
 import { Public } from 'src/user/metas/public.meta';
 import { AnnouncementService } from './announcement.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
-import { SearchAnnouncements } from './dto/search-announcements.dto';
+import { SearchAnnouncementsDto } from './dto/search-announcements.dto';
 import { UpdateAnnouncementDto } from './dto/update-announcement.dto';
 
 @ApiBearerAuth()
@@ -29,7 +29,7 @@ export class AnnouncementController {
   }
 
   @Get()
-  findAll(@Query() query: SearchAnnouncements) {
+  findAll(@Query() query: SearchAnnouncementsDto) {
     return this.announcementService.findAll(query);
   }
 

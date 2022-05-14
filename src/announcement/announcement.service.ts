@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Platform, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
-import { SearchAnnouncements } from './dto/search-announcements.dto';
+import { SearchAnnouncementsDto } from './dto/search-announcements.dto';
 import { UpdateAnnouncementDto } from './dto/update-announcement.dto';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class AnnouncementService {
     return this.prisma.announcement.create({ data });
   }
 
-  async findAll(search: SearchAnnouncements) {
+  async findAll(search: SearchAnnouncementsDto) {
     const { page, perpage, keyword, platform, type, is_active } = search;
     const findManyArgs: Prisma.AnnouncementFindManyArgs = {
       where: {

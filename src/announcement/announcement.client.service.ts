@@ -1,17 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { AnnouncementType, Platform, Prisma } from '@prisma/client';
+import { Platform, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { ClientSearchAnnouncementsDto } from './dto/client-search-announcements.dto';
 
 @Injectable()
 export class AnnouncementClientService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(search: {
-    page: number;
-    perpage: number;
-    platform: Platform;
-    type: AnnouncementType;
-  }) {
+  async findAll(search: ClientSearchAnnouncementsDto) {
     const { page = 1, perpage = 10, platform, type } = search;
     const findManyArgs: Prisma.AnnouncementFindManyArgs = {
       where: {
