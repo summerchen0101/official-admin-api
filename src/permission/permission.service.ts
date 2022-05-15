@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
@@ -6,23 +7,23 @@ import { UpdatePermissionDto } from './dto/update-permission.dto';
 @Injectable()
 export class PermissionService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createPermissionDto: CreatePermissionDto) {
-    return 'This action adds a new permission';
+  create(data: CreatePermissionDto) {
+    return this.prisma.permission.create({ data });
   }
 
   findAll() {
-    return `This action returns all permission`;
+    return this.prisma.permission.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} permission`;
+  findOne(id: string) {
+    return this.prisma.permission.findUnique({ where: { id } });
   }
 
-  update(id: number, updatePermissionDto: UpdatePermissionDto) {
-    return `This action updates a #${id} permission`;
+  update(id: string, data: UpdatePermissionDto) {
+    return this.prisma.permission.update({ where: { id }, data });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} permission`;
+  remove(id: string) {
+    return this.prisma.permission.delete({ where: { id } });
   }
 }

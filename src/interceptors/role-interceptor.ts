@@ -31,15 +31,17 @@ export class RoleInterceptor implements NestInterceptor {
     );
 
     if (req.user && !isRolePublic) {
-      const user_id = req.user.role.id as string;
+      if (req.user.role.code === 'MASTER') {
+        return next.handle();
+      }
+      const role_id = req.user.role.id as string;
       const permissions = await this.prisma.permission.findMany({
         where: {
-          role: { some: { id: user_id } },
+          role: { some: { id: role_id } },
           controller: controller.name,
           handler: handler.name,
         },
       });
-      console.log(permissions);
 
       if (!permissions.length) {
         throw new ForbiddenException('無角色權限');
