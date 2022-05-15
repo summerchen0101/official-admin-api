@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
 import { Serilizer } from 'src/interceptors/serializer.interceptor';
+import { RolePublic } from 'src/role/metas/role-public.meta';
 import { AuthService } from './auth.service';
 import { AuthTokenService } from './auth_token.service';
 import { User } from './decorators/user.decorator';
@@ -16,6 +17,7 @@ export class AuthController {
   ) {}
 
   @Get('me')
+  @RolePublic()
   async me(@User() user) {
     return user;
   }

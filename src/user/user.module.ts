@@ -1,14 +1,13 @@
-import { JwtAuthGuard } from './../guards/jwt-auth.guard';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
+import { JwtAuthGuard } from './../guards/jwt-auth.guard';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserMiddleware } from './middlewares/user.middleware';
+import { AuthTokenService } from './auth_token.service';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthTokenService } from './auth_token.service';
 
 @Module({
   imports: [
@@ -31,6 +30,6 @@ import { AuthTokenService } from './auth_token.service';
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UserMiddleware).forRoutes('*');
+    // consumer.apply(RoleMiddleware).forRoutes('*');
   }
 }

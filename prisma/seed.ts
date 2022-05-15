@@ -16,11 +16,34 @@ async function main() {
       role: {
         connectOrCreate: {
           where: { code: 'MASTER' },
-          create: { name: '總管理員', code: 'MASTER' },
+          create: {
+            name: '總管理員',
+            code: 'MASTER',
+            permissions: {
+              create: [
+                {
+                  name: '最新消息-列表',
+                  controller: 'AnnouncementController',
+                  handler: 'findAll',
+                },
+                {
+                  name: '最新消息-查看',
+                  controller: 'AnnouncementController',
+                  handler: 'findOne',
+                },
+              ],
+            },
+          },
         },
       },
     },
   });
+
+  // await prisma.permission.upsert({
+  //   create: {
+  //     controller: ""
+  //   }
+  // })
 }
 
 main()
