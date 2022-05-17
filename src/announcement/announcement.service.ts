@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Platform, Prisma } from '@prisma/client';
+import { AnnouncementType, Platform, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
 import { SearchAnnouncementsDto } from './dto/search-announcements.dto';
@@ -8,6 +8,51 @@ import { UpdateAnnouncementDto } from './dto/update-announcement.dto';
 @Injectable()
 export class AnnouncementService {
   constructor(private readonly prisma: PrismaService) {}
+
+  batchCreate(list: CreateAnnouncementDto[]) {
+    return this.prisma.announcement.createMany({
+      data: list,
+      skipDuplicates: true,
+    });
+  }
+  injectOldList(
+    oldData: {
+      title: string;
+      content: string;
+      category: number;
+      createdAt: string;
+      startAt: string;
+      endAt: string;
+      isRedirect: boolean;
+      sort: number;
+      platform: number;
+    }[],
+  ) {
+    return this.prisma.announcement.createMany({
+      data: oldData.map<Prisma.AnnouncementCreateInput>((t) => ({
+        title: t.title,
+        content: t.content,
+        platform: { 1: Platform.MAIN, 2: Platform.SECONDARY, 0: Platform.ALL }[
+          t.platform
+        ],
+        type: {
+          1: AnnouncementType.OPERATION,
+          2: AnnouncementType.EVENT,
+          3: AnnouncementType.SERVICE,
+          4: AnnouncementType.GAME,
+        }[t.category],
+        created_at: new Date(t.createdAt),
+        start_at: new Date(t.startAt),
+        end_at: new Date(t.endAt),
+        link: t.isRedirect ? t.content : '',
+        is_new_win: t.isRedirect,
+        is_top: t.sort === 0,
+        sort: t.sort,
+        is_active: true,
+      })),
+      skipDuplicates: true,
+    });
+  }
   create(data: CreateAnnouncementDto) {
     return this.prisma.announcement.create({ data });
   }

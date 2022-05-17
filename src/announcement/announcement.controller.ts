@@ -21,6 +21,28 @@ import { UpdateAnnouncementDto } from './dto/update-announcement.dto';
 export class AnnouncementController {
   constructor(private readonly announcementService: AnnouncementService) {}
 
+  @Post('batch')
+  batchCreate(@Body() createAnnouncementDto: CreateAnnouncementDto) {
+    return this.announcementService.create(createAnnouncementDto);
+  }
+  @Post('oldnews')
+  injectFromOld(
+    @Body()
+    data: {
+      title: string;
+      content: string;
+      category: number;
+      createdAt: string;
+      startAt: string;
+      endAt: string;
+      isRedirect: boolean;
+      sort: number;
+      platform: number;
+    }[],
+  ) {
+    return this.announcementService.injectOldList(data);
+  }
+
   @Post()
   create(@Body() createAnnouncementDto: CreateAnnouncementDto) {
     return this.announcementService.create(createAnnouncementDto);

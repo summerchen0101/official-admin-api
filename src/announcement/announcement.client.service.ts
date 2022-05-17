@@ -49,7 +49,7 @@ export class AnnouncementClientService {
             },
           },
         ],
-        type,
+        // type,
       },
       orderBy: [{ is_top: 'desc' }, { sort: 'asc' }],
       take: +perpage,
