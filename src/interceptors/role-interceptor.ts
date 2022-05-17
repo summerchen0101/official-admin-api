@@ -23,7 +23,6 @@ export class RoleInterceptor implements NestInterceptor {
     const req = context.switchToHttp().getRequest();
     const controller = context.getClass();
     const handler = context.getHandler();
-    console.log(req.user);
 
     const isRolePublic = this.reflector.getAllAndOverride<boolean>(
       IS_ROLE_PUBLIC_KEY,

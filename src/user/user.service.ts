@@ -6,6 +6,7 @@ import {
 import { Prisma, User } from '@prisma/client';
 import * as argon2 from 'argon2';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateUserDto } from './dto/create-user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -63,16 +64,18 @@ export class UserService {
     };
   }
 
-  async create({ password, ...data }: Prisma.UserCreateInput): Promise<User> {
-    const users = await this.prisma.user.findMany({
-      where: { email: data.email },
-    });
-    if (users.length) {
-      throw new BadRequestException('email in use');
-    }
+  async create({ password, ...data }: CreateUserDto): Promise<User> {
     const hash = await argon2.hash(password);
-    return this.prisma.user.create({
-      data: { ...data, password: hash },
+
+    return await this.prisma.user.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        role: {
+          connect: { id: data.role_id },
+        },
+        password: hash,
+      },
     });
   }
 

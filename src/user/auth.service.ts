@@ -16,7 +16,16 @@ export class AuthService {
   ) {}
 
   async signin({ email, password }: SigninDto) {
-    const user = await this.prisma.user.findUnique({ where: { email } });
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+      include: {
+        role: {
+          include: {
+            permissions: true,
+          },
+        },
+      },
+    });
     if (!user) {
       throw new BadRequestException('user is not exist');
     }
@@ -31,9 +40,12 @@ export class AuthService {
       await this.tokenService.remove({ user_id: user.id });
     }
 
+    delete user.password;
+
     await this.tokenService.create(user.id, token);
     return {
       access_token: token,
+      user,
     };
   }
 }
