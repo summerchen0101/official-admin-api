@@ -21,6 +21,10 @@ import { UpdateAnnouncementDto } from './dto/update-announcement.dto';
 export class AnnouncementController {
   constructor(private readonly announcementService: AnnouncementService) {}
 
+  @Delete('clean-before')
+  cleanBeforeDay(@Body() { day }: { day: Date | string }) {
+    return this.announcementService.cleanBeforeDay(day);
+  }
   @Post('batch')
   batchCreate(@Body() createAnnouncementDto: CreateAnnouncementDto) {
     return this.announcementService.create(createAnnouncementDto);

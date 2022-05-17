@@ -9,6 +9,17 @@ import { UpdateAnnouncementDto } from './dto/update-announcement.dto';
 export class AnnouncementService {
   constructor(private readonly prisma: PrismaService) {}
 
+  cleanBeforeDay(day: Date | string) {
+    // const targetTimeStamp = new Date().setDate(new Date().getDate() + diffDays);
+    return this.prisma.announcement.deleteMany({
+      where: {
+        end_at: {
+          lt: new Date(day),
+        },
+      },
+    });
+  }
+
   batchCreate(list: CreateAnnouncementDto[]) {
     return this.prisma.announcement.createMany({
       data: list,
