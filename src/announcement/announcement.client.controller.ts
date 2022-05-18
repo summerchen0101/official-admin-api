@@ -25,10 +25,10 @@ export class AnnouncementClientController {
     try {
       return await this.service.findAll(query);
     } catch (err) {
-      if (err instanceof PrismaClientKnownRequestError) {
-        console.log('prisma knows');
-      }
-      console.dir(err.message);
+      // if (err instanceof PrismaClientKnownRequestError) {
+      //   console.log('prisma knows');
+      // }
+      // console.dir(err.message);
       throw new BadRequestException(err.message);
     }
   }
