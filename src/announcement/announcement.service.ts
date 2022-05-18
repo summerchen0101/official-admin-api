@@ -95,7 +95,7 @@ export class AnnouncementService {
           },
         ],
       },
-      orderBy: [{ is_top: 'desc' }, { sort: 'asc' }],
+      orderBy: [{ is_top: 'desc' }, { sort: 'asc' }, { start_at: 'desc' }],
       take: perpage,
       skip: (page - 1) * perpage,
     };
