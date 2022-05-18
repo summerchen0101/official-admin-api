@@ -41,6 +41,9 @@ export class UserService {
         name,
         is_active,
       },
+      include: {
+        role: true,
+      },
       orderBy: [{ id: 'desc' }],
       take: perpage || 10,
       skip: (page - 1) * perpage || 0,
