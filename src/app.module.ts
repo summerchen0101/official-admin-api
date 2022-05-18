@@ -11,6 +11,8 @@ import { UserModule } from './user/user.module';
 import { OperationRecModule } from './operation_rec/operation_rec.module';
 import { PermissionModule } from './permission/permission.module';
 import { RoleModule } from './role/role.module';
+import { EventModule } from './event/event.module';
+import { EventSectionModule } from './event-section/event-section.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { RoleModule } from './role/role.module';
     OperationRecModule,
     PermissionModule,
     RoleModule,
+    EventModule,
+    EventSectionModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],

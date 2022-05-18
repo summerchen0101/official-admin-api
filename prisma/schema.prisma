@@ -119,3 +119,20 @@ model AuthToken {
   updated_at DateTime @updatedAt
 }
 
+
+
+model Event {
+  id String @id @default(cuid())
+  banner String?
+  name String
+  desc String?
+  sections EventSection[]
+}
+
+model EventSection {
+  id String @id @default(cuid())
+  title String
+  content String
+  event Event @relation(fields: [event_id], references: [id])
+  event_id String
+}
