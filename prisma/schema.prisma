@@ -89,6 +89,8 @@ model Announcement {
   is_new_win Boolean @default(false)
   is_top Boolean @default(false)
   sort Int @default(autoincrement())
+
+  @@unique([title, start_at], name: "title_start_at")
 }
 
 model Product {
