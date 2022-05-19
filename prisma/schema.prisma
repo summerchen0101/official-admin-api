@@ -121,18 +121,38 @@ model AuthToken {
 
 
 
-model Event {
+
+model EventGroup {
   id String @id @default(cuid())
   banner String?
   name String
-  desc String?
-  sections EventSection[]
+  code String @unique
+  info String?
+  url String?
+  events Event[]
+
+  platform Platform @default(ALL)
 }
 
-model EventSection {
+
+enum EventType {
+  NORMAL
+}
+
+model Event {
   id String @id @default(cuid())
+  code String @unique
   title String
   content String
-  event Event @relation(fields: [event_id], references: [id])
-  event_id String
+  event_group EventGroup? @relation(fields: [event_group_id], references: [id])
+  event_group_id String?
+
+  start_at DateTime? @db.Timestamp()
+  end_at DateTime? @db.Timestamp()
+
+  type EventType
+  is_active Boolean @default(true)
+
+  sort Int @default(autoincrement())
+
 }

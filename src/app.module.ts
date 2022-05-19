@@ -12,7 +12,7 @@ import { OperationRecModule } from './operation_rec/operation_rec.module';
 import { PermissionModule } from './permission/permission.module';
 import { RoleModule } from './role/role.module';
 import { EventModule } from './event/event.module';
-import { EventSectionModule } from './event-section/event-section.module';
+import { EventGroupModule } from './event-group/event-group.module';
 
 @Module({
   imports: [
@@ -29,7 +29,7 @@ import { EventSectionModule } from './event-section/event-section.module';
     PermissionModule,
     RoleModule,
     EventModule,
-    EventSectionModule,
+    EventGroupModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],
