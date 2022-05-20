@@ -26,24 +26,17 @@ export class EventGroupService {
     return this.prisma.eventGroup.findUnique({ where: { id } });
   }
 
-  async update(id: string, { event_ids = [], ...data }: UpdateEventGroupDto) {
-    try {
-      return await this.prisma.eventGroup.update({
-        where: { id },
-        data: {
-          ...data,
-          events: {
-            connect: event_ids.map((id) => ({ id })),
-          },
+  update(id: string, { event_ids = [], ...data }: UpdateEventGroupDto) {
+    return this.prisma.eventGroup.update({
+      where: { id },
+      data: {
+        ...data,
+        events: {
+          connect: event_ids.map((id) => ({ id })),
         },
-        include: { events: true },
-      });
-    } catch (err) {
-      return {
-        success: false,
-        message: err,
-      };
-    }
+      },
+      include: { events: true },
+    });
   }
 
   remove(id: string) {
