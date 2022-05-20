@@ -6,7 +6,7 @@ import { UpdateEventGroupDto } from './dto/update-event-group.dto';
 @Injectable()
 export class EventGroupService {
   constructor(private readonly prisma: PrismaService) {}
-  create({ event_ids, ...data }: CreateEventGroupDto) {
+  create({ event_ids = [], ...data }: CreateEventGroupDto) {
     return this.prisma.eventGroup.create({
       data: {
         ...data,
@@ -26,17 +26,24 @@ export class EventGroupService {
     return this.prisma.eventGroup.findUnique({ where: { id } });
   }
 
-  update(id: string, { event_ids, ...data }: UpdateEventGroupDto) {
-    return this.prisma.eventGroup.update({
-      where: { id },
-      data: {
-        ...data,
-        events: {
-          connect: event_ids.map((id) => ({ id })),
+  async update(id: string, { event_ids = [], ...data }: UpdateEventGroupDto) {
+    try {
+      return await this.prisma.eventGroup.update({
+        where: { id },
+        data: {
+          ...data,
+          events: {
+            connect: event_ids.map((id) => ({ id })),
+          },
         },
-      },
-      include: { events: true },
-    });
+        include: { events: true },
+      });
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+      };
+    }
   }
 
   remove(id: string) {
