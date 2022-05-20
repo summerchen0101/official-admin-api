@@ -36,28 +36,13 @@ export class UserController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    try {
-      return await this.userService.findOne(id);
-    } catch (err) {
-      throw new BadRequestException(err.message);
-    }
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(id);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    try {
-      return await this.userService.update(id, updateUserDto);
-    } catch (err) {
-      if (
-        err instanceof PrismaClientKnownRequestError &&
-        err.code === 'P2025'
-      ) {
-        throw new BadRequestException('無此User');
-      } else {
-        throw new BadRequestException(err.msg);
-      }
-    }
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
