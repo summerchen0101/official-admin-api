@@ -16,9 +16,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = '';
+    let info = err;
     if (err instanceof HttpException) {
       statusCode = err.getStatus();
       message = err.message;
+      info = null;
     } else {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         const errMsgMap = {
@@ -35,7 +37,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       statusCode,
       path: request.url,
       message,
-      info: err,
+      info,
     });
   }
 }
