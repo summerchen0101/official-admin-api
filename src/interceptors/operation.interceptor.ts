@@ -7,7 +7,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
-import { OperationRecService } from './../operation_rec/operation_rec.service';
+import { OperationRecService } from '../operation-rec/operation-rec.service';
 
 @Injectable()
 export class OperationInterceptor implements NestInterceptor {

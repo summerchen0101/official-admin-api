@@ -9,8 +9,9 @@ import {
   Query,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { SearchOperationRecDto } from './dto/search-operation_rec.dto';
-import { OperationRecService } from './operation_rec.service';
+import { SearchAuthOperationRecDto } from './dto/search-auth-operation-rec.dto';
+import { SearchOperationRecDto } from './dto/search-operation-rec.dto';
+import { OperationRecService } from './operation-rec.service';
 
 @Controller('operations')
 export class OperationRecController {
@@ -24,6 +25,11 @@ export class OperationRecController {
   @Get()
   findAll(@Query() query: SearchOperationRecDto) {
     return this.operationRecService.findAll(query);
+  }
+
+  @Get('auth')
+  findAuthAll(@Query() query: SearchAuthOperationRecDto) {
+    return this.operationRecService.findAuthAll(query);
   }
 
   @Get(':id')

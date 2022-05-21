@@ -8,7 +8,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ProductModule } from './product/product.module';
 import { JwtStrategy } from './user/strategies/jwt.strategy';
 import { UserModule } from './user/user.module';
-import { OperationRecModule } from './operation_rec/operation_rec.module';
+import { OperationRecModule } from './operation-rec/operation-rec.module';
 import { PermissionModule } from './permission/permission.module';
 import { RoleModule } from './role/role.module';
 import { EventModule } from './event/event.module';

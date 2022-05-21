@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
-import { OperationRecService } from './operation_rec.service';
-import { OperationRecController } from './operation_rec.controller';
+import { OperationRecService } from './operation-rec.service';
+import { OperationRecController } from './operation-rec.controller';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { OperationInterceptor } from 'src/interceptors/operation.interceptor';
 
