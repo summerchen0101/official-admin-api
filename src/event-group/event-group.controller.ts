@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { EventGroupService } from './event-group.service';
 import { CreateEventGroupDto } from './dto/create-event-group.dto';
 import { UpdateEventGroupDto } from './dto/update-event-group.dto';
+import { SearchEventGroupsDto } from './dto/search-events-group.dto';
 
 @Controller('event-groups')
 export class EventGroupController {
@@ -21,8 +23,13 @@ export class EventGroupController {
   }
 
   @Get()
-  findAll() {
-    return this.eventGroupService.findAll();
+  findAll(@Query() query: SearchEventGroupsDto) {
+    return this.eventGroupService.findAll(query);
+  }
+
+  @Get('option')
+  option() {
+    return this.eventGroupService.option();
   }
 
   @Get(':id')

@@ -22,6 +22,11 @@ export class EventController {
     return this.eventService.create(createEventDto);
   }
 
+  @Get('option')
+  option() {
+    return this.eventService.option();
+  }
+
   @Get()
   findAll(@Query() query: SearchEventsDto) {
     return this.eventService.findAll(query);

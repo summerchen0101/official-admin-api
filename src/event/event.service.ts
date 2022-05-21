@@ -14,6 +14,12 @@ export class EventService {
     });
   }
 
+  option() {
+    return this.prisma.event.findMany({
+      select: { id: true, title: true, code: true },
+    });
+  }
+
   async findAll(search: SearchEventsDto) {
     const { page, perpage, keyword, type, is_active } = search;
     const findManyArgs: Prisma.EventFindManyArgs = {
