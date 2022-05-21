@@ -17,6 +17,15 @@ export class EventService {
   async findAll(search: SearchEventsDto) {
     const { page, perpage, keyword, type, is_active } = search;
     const findManyArgs: Prisma.EventFindManyArgs = {
+      include: {
+        event_group: {
+          select: {
+            id: true,
+            name: true,
+            code: true,
+          },
+        },
+      },
       take: perpage,
       skip: (page - 1) * perpage,
     };
