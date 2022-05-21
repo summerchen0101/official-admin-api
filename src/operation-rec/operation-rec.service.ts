@@ -12,11 +12,19 @@ export class OperationRecService {
   }
 
   async findAll(search: SearchOperationRecDto) {
-    const { controller, target_id, operator_id, page, perpage } = search;
+    const { controller, target_id, user_key, page, perpage } = search;
     const findManyArgs: Prisma.OperationRecFindManyArgs = {
       where: {
         AND: [
-          { operator_id, target_id, controller },
+          {
+            operator: user_key
+              ? {
+                  OR: [{ id: user_key }, { email: user_key }],
+                }
+              : undefined,
+            target_id,
+            controller,
+          },
           { controller: { not: 'AuthController' } },
         ],
       },
@@ -25,6 +33,7 @@ export class OperationRecService {
           select: {
             id: true,
             name: true,
+            email: true,
             role: true,
           },
         },
@@ -47,11 +56,15 @@ export class OperationRecService {
   }
 
   async findAuthAll(search: SearchAuthOperationRecDto) {
-    const { operator_id, page, perpage } = search;
+    const { user_key, page, perpage } = search;
     const findManyArgs: Prisma.OperationRecFindManyArgs = {
       where: {
         controller: { equals: 'AuthController' },
-        operator_id,
+        operator: user_key
+          ? {
+              OR: [{ id: user_key }, { email: user_key }],
+            }
+          : undefined,
       },
       include: {
         operator: {
@@ -59,6 +72,7 @@ export class OperationRecService {
             id: true,
             name: true,
             role: true,
+            email: true,
           },
         },
       },

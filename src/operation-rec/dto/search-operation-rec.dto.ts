@@ -11,7 +11,7 @@ export class SearchOperationRecDto extends PaginateDto {
 
   @IsString()
   @IsOptional()
-  operator_id?: string;
+  user_key?: string;
 
   @IsString()
   @IsOptional()

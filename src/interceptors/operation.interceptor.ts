@@ -6,6 +6,7 @@ import {
   NestInterceptor,
   UseInterceptors,
 } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { map, Observable } from 'rxjs';
 import { OperationRecService } from '../operation-rec/operation-rec.service';
 
@@ -18,10 +19,11 @@ export class OperationInterceptor implements NestInterceptor {
   ): Promise<Observable<any>> {
     const reqClass = context.getClass();
     const reqHandler = context.getHandler();
-    const [req] = context.getArgs();
+    const [req, res] = context.getArgs();
     return next.handle().pipe(
       map(async (data) => {
-        if (req.method !== 'GET' && req.user) {
+        const user: User = req.user || data.user;
+        if (req.method !== 'GET' && user) {
           if (req.body.password) {
             req.body.password = '***';
           }
@@ -29,7 +31,7 @@ export class OperationInterceptor implements NestInterceptor {
             await this.operationRecService.create({
               controller: reqClass.name,
               handler: reqHandler.name,
-              operator: { connect: { id: req.user.id } },
+              operator: { connect: { id: user.id } },
               reqBody: req.body,
               target_id: req.params.id,
               path: req.path,

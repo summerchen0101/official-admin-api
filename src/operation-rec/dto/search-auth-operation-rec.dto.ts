@@ -3,5 +3,5 @@ import { PaginateDto } from 'src/dto/paginate.dto';
 export class SearchAuthOperationRecDto extends PaginateDto {
   @IsString()
   @IsOptional()
-  operator_id?: string;
+  user_key?: string;
 }
