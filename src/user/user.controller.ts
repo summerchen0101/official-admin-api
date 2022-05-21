@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -8,10 +7,7 @@ import {
   Patch,
   Post,
   Query,
-  UseGuards,
 } from '@nestjs/common';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { Operation } from 'src/interceptors/operation.interceptor';
 import { Serilizer } from 'src/interceptors/serializer.interceptor';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SearchUserDto } from './dto/search-user.dto';
@@ -21,7 +17,6 @@ import { UserService } from './user.service';
 
 @Controller('users')
 @Serilizer(UserDto)
-@Operation()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

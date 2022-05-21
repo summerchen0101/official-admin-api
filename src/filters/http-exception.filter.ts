@@ -32,7 +32,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         message = errMsgMap[err.code] || '';
       }
     }
-
+    console.log(err);
     response.status(statusCode).json({
       statusCode,
       path: request.url,
