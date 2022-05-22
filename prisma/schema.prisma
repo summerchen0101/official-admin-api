@@ -17,7 +17,6 @@ model User {
   email String  @unique
   name  String?
   password String
-  prodcuts Product[]
   auth_token AuthToken?
   operations OperationRec[]
   role Role @relation(fields: [role_id], references: [id])
@@ -93,22 +92,6 @@ model Announcement {
   @@unique([title, start_at], name: "title_start_at")
 }
 
-model Product {
-  id String @id @default(cuid())
-  name String @unique
-  price Int
-  active Boolean @default(true)
-  category Category @relation(fields: [category_id], references: [id])
-  category_id String
-  creator User @relation(fields: [creator_id], references: [id])
-  creator_id String
-}
-
-model Category {
-  id String @id @default(cuid())
-  name String @unique
-  products Product[]
-}
 
 model AuthToken {
   id String @id @default(cuid())
@@ -137,6 +120,21 @@ model EventGroup {
 
 enum EventType {
   NORMAL
+}
+
+enum PrizeType {
+  CARD
+  PHYSICAL
+  COIN
+}
+
+model Prize {
+  id Int @id @default(autoincrement())
+  name String
+  img_path String
+  type PrizeType
+
+  @@unique([name, type])
 }
 
 model Event {

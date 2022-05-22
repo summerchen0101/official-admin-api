@@ -7,7 +7,22 @@ import {
   IsUrl,
   IsBoolean,
   IsInt,
+  IsArray,
+  ValidateNested,
+  ArrayMinSize,
+  ArrayMaxSize,
 } from 'class-validator';
+
+interface LevelAward {
+  level: number;
+  award: string;
+  count: number;
+  icon: string;
+}
+interface LevelAwardGroup {
+  title: string;
+  levels: LevelAward[];
+}
 
 export class CreateEventDto implements Partial<Prisma.EventCreateInput> {
   @IsString()
@@ -45,4 +60,10 @@ export class CreateEventDto implements Partial<Prisma.EventCreateInput> {
   @IsString()
   @IsOptional()
   event_group_id: string;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @ArrayMinSize(2)
+  @ArrayMaxSize(2)
+  complex: LevelAwardGroup[];
 }

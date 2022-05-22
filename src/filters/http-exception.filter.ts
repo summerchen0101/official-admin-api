@@ -8,6 +8,11 @@ import {
 import { Prisma } from '@prisma/client';
 import { Request, Response } from 'express';
 
+interface StandardError {
+  statusCode: number;
+  message: string | string[];
+  error: string;
+}
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(err: unknown, host: ArgumentsHost) {
@@ -17,9 +22,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = '';
     let info = err;
+    console.log(err);
+
     if (err instanceof HttpException) {
       statusCode = err.getStatus();
-      message = err.message;
+      const response = err.getResponse() as StandardError;
+      message =
+        typeof response.message === 'string'
+          ? response.message
+          : response.message[0] || err.message;
       info = null;
     } else {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
