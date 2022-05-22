@@ -1,30 +1,47 @@
-import { Event, Prisma } from '@prisma/client';
+import { Prisma, EventType } from '@prisma/client';
+import { Transform, Type } from 'class-transformer';
 import {
+  IsArray,
+  IsBoolean,
+  IsEnum,
+  IsInt,
   IsISO8601,
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsUrl,
-  IsBoolean,
-  IsInt,
-  IsArray,
+  ValidateIf,
   ValidateNested,
-  ArrayMinSize,
-  ArrayMaxSize,
 } from 'class-validator';
 
-interface LevelAward {
+export class LevelAward {
+  @IsInt()
   level: number;
-  award: string;
+
+  @IsInt()
+  prize_id: number;
+
+  @IsInt()
   count: number;
-  icon: string;
 }
-interface LevelAwardGroup {
+class LevelAwardGroup {
+  @IsString()
   title: string;
+
+  @ValidateNested()
+  @Type(() => LevelAward)
+  @IsNotEmpty()
   levels: LevelAward[];
 }
 
-export class CreateEventDto implements Partial<Prisma.EventCreateInput> {
+class GameRebate {
+  @IsString()
+  game: string;
+
+  @IsInt()
+  rebate: number;
+}
+
+export class CreateEventDto {
   @IsString()
   code: string;
 
@@ -38,9 +55,6 @@ export class CreateEventDto implements Partial<Prisma.EventCreateInput> {
 
   @IsBoolean()
   is_active: boolean;
-
-  @IsString()
-  type: 'NORMAL';
 
   @IsInt()
   @IsOptional()
@@ -61,9 +75,18 @@ export class CreateEventDto implements Partial<Prisma.EventCreateInput> {
   @IsOptional()
   event_group_id: string;
 
-  @IsArray()
-  @ValidateNested({ each: true })
-  @ArrayMinSize(2)
-  @ArrayMaxSize(2)
-  complex: LevelAwardGroup[];
+  @IsEnum(EventType)
+  type: EventType;
+
+  @ValidateNested()
+  @Type(() => LevelAwardGroup)
+  @IsNotEmpty()
+  @ValidateIf((obj) => obj.type === EventType.LEVEL_PRIZE)
+  groups: Prisma.JsonArray;
+
+  @ValidateNested()
+  @Type(() => GameRebate)
+  @IsNotEmpty()
+  @ValidateIf((obj) => obj.type === EventType.GAME_REBATE)
+  rebates: Prisma.JsonArray;
 }

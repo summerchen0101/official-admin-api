@@ -120,6 +120,9 @@ model EventGroup {
 
 enum EventType {
   NORMAL
+  LEVEL_PRIZE
+  GAME_REBATE
+  RECHARGE_PRIZE
 }
 
 enum PrizeType {
@@ -144,13 +147,11 @@ model Event {
   content String
   event_group EventGroup? @relation(fields: [event_group_id], references: [id])
   event_group_id String?
-
-  start_at DateTime? @db.Timestamp()
-  end_at DateTime? @db.Timestamp()
-
-  type EventType
+  type EventType @default(NORMAL)
+  start_at DateTime? @db.Timestamp
+  end_at DateTime? @db.Timestamp
   is_active Boolean @default(true)
-
   sort Int @default(autoincrement())
-
+  rebates Json? @db.JsonB
+  groups Json? @db.JsonB
 }

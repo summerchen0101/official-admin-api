@@ -52,7 +52,10 @@ export class EventService {
   }
 
   update(id: string, data: UpdateEventDto) {
-    return this.prisma.event.update({ where: { id }, data });
+    return this.prisma.event.update({
+      where: { id },
+      data,
+    });
   }
 
   remove(id: string) {
