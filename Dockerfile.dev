@@ -15,6 +15,5 @@ RUN npx prisma generate
 
 # RUN yarn build
 
-CMD [ "yarn", "start:dev" ]
 
-EXPOSE 8080
+EXPOSE 8080 5555
