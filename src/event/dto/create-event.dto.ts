@@ -41,6 +41,17 @@ class GameRebate {
   rebate: number;
 }
 
+class RechargePrize {
+  @IsInt()
+  amount: number;
+
+  @IsInt()
+  prize_id: number;
+
+  @IsInt()
+  count: number;
+}
+
 export class CreateEventDto {
   @IsString()
   code: string;
@@ -65,10 +76,15 @@ export class CreateEventDto {
   banner: string;
 
   @IsString()
+  @IsNotEmpty()
   title: string;
 
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
+  target: string;
+
+  @IsString()
+  @IsNotEmpty()
   content: string;
 
   @IsString()
@@ -89,4 +105,10 @@ export class CreateEventDto {
   @IsNotEmpty()
   @ValidateIf((obj) => obj.type === EventType.GAME_REBATE)
   rebates: Prisma.JsonArray;
+
+  @ValidateNested()
+  @Type(() => RechargePrize)
+  @IsNotEmpty()
+  @ValidateIf((obj) => obj.type === EventType.RECHARGE_PRIZE)
+  recharges: Prisma.JsonArray;
 }
