@@ -12,8 +12,8 @@ export class EventService {
     return this.prisma.event.create({
       data: {
         ...data,
-        start_at: new Date(data.start_at),
-        end_at: new Date(data.end_at),
+        start_at: data.start_at ? new Date(data.start_at + ' GMT+8') : null,
+        end_at: data.end_at ? new Date(data.end_at + ' GMT+8') : null,
       },
     });
   }
@@ -63,8 +63,8 @@ export class EventService {
       where: { id },
       data: {
         ...data,
-        start_at: new Date(data.start_at + ' GMT+8'),
-        end_at: new Date(data.end_at + ' GMT+8'),
+        start_at: data.start_at ? new Date(data.start_at + ' GMT+8') : null,
+        end_at: data.end_at ? new Date(data.end_at + ' GMT+8') : null,
       },
     });
   }
