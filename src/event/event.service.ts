@@ -10,7 +10,11 @@ export class EventService {
   constructor(private readonly prisma: PrismaService) {}
   create(data: CreateEventDto) {
     return this.prisma.event.create({
-      data,
+      data: {
+        ...data,
+        start_at: new Date(data.start_at),
+        end_at: new Date(data.end_at),
+      },
     });
   }
 
@@ -48,13 +52,20 @@ export class EventService {
   }
 
   findOne(id: string) {
-    return this.prisma.event.findUnique({ where: { id } });
+    return this.prisma.event.findUnique({
+      where: { id },
+      include: { event_group: { select: { code: true, name: true } } },
+    });
   }
 
   update(id: string, data: UpdateEventDto) {
     return this.prisma.event.update({
       where: { id },
-      data,
+      data: {
+        ...data,
+        start_at: new Date(data.start_at + ' GMT+8'),
+        end_at: new Date(data.end_at + ' GMT+8'),
+      },
     });
   }
 

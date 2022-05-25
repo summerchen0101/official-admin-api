@@ -48,7 +48,17 @@ export class EventGroupService {
   }
 
   findOne(id: string) {
-    return this.prisma.eventGroup.findUnique({ where: { id } });
+    return this.prisma.eventGroup.findUnique({
+      where: { id },
+      include: {
+        events: {
+          select: {
+            code: true,
+            title: true,
+          },
+        },
+      },
+    });
   }
 
   update(id: string, { event_ids = [], ...data }: UpdateEventGroupDto) {

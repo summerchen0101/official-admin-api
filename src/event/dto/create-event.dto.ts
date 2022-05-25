@@ -56,13 +56,13 @@ export class CreateEventDto {
   @IsString()
   code: string;
 
-  @IsISO8601()
+  @IsString()
   @IsOptional()
-  start_at?: Date;
+  start_at?: string;
 
-  @IsISO8601()
+  @IsString()
   @IsOptional()
-  end_at?: Date;
+  end_at?: string;
 
   @IsBoolean()
   is_active: boolean;
@@ -73,7 +73,11 @@ export class CreateEventDto {
 
   @IsString()
   @IsOptional()
-  banner: string;
+  tab_img: string;
+
+  @IsString()
+  @IsOptional()
+  tab_active_img: string;
 
   @IsString()
   @IsNotEmpty()

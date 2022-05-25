@@ -27,6 +27,10 @@ export class PrizeController {
     return this.prizeService.createMany(list);
   }
 
+  @Get('option')
+  option() {
+    return this.prizeService.option();
+  }
   @Get()
   findAll(@Query() query: SearchPrizesDto) {
     return this.prizeService.findAll(query);

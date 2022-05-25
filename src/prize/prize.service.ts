@@ -19,6 +19,12 @@ export class PrizeService {
     });
   }
 
+  option() {
+    return this.prisma.prize.findMany({
+      select: { id: true, name: true, type: true },
+    });
+  }
+
   async findAll(search: SearchPrizesDto) {
     const { page, perpage, type } = search;
     const findManyArgs: Prisma.PrizeFindManyArgs = {

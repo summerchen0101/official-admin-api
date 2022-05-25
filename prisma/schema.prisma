@@ -103,32 +103,19 @@ model AuthToken {
 }
 
 
-
-
-model EventGroup {
-  id String @id @default(cuid())
-  banner String?
-  name String
-  code String @unique
-  info String?
-  url String?
-  events Event[]
-
-  platform Platform @default(ALL)
-}
-
-
 enum EventType {
   NORMAL
   LEVEL_PRIZE
   GAME_REBATE
   RECHARGE_PRIZE
+  INFO
 }
 
 enum PrizeType {
   CARD
   PHYSICAL
   COIN
+  GAME
 }
 
 model Prize {
@@ -140,12 +127,27 @@ model Prize {
   @@unique([name, type])
 }
 
+
+
+model EventGroup {
+  id String @id @default(cuid())
+  banner String?
+  name String
+  code String @unique
+  url String?
+  events Event[]
+  theme String @default("")
+  platform Platform @default(ALL)
+}
+
 model Event {
   id String @id @default(cuid())
   code String @unique
   title String
   target String
   content String
+  tab_img String @default("")
+  tab_active_img String @default("")
   event_group EventGroup? @relation(fields: [event_group_id], references: [id])
   event_group_id String?
   type EventType @default(NORMAL)

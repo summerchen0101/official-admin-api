@@ -18,6 +18,10 @@ export class CreateEventGroupDto
 
   @IsString()
   @IsOptional()
+  theme: string;
+
+  @IsString()
+  @IsOptional()
   info?: string;
 
   @IsString()
