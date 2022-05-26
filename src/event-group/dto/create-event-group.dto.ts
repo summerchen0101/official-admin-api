@@ -9,6 +9,10 @@ export class CreateEventGroupDto
   banner?: string;
 
   @IsString()
+  @IsOptional()
+  title_img?: string;
+
+  @IsString()
   @IsNotEmpty()
   name: string;
 

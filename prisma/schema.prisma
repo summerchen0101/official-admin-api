@@ -130,6 +130,7 @@ model Prize {
 
 model EventGroup {
   id String @id @default(cuid())
+  title_img String?
   banner String?
   name String
   code String @unique
