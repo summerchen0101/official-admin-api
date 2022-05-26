@@ -17,7 +17,6 @@ model User {
   email String  @unique
   name  String?
   password String
-  prodcuts Product[]
   auth_token AuthToken?
   operations OperationRec[]
   role Role @relation(fields: [role_id], references: [id])
@@ -93,22 +92,6 @@ model Announcement {
   @@unique([title, start_at], name: "title_start_at")
 }
 
-model Product {
-  id String @id @default(cuid())
-  name String @unique
-  price Int
-  active Boolean @default(true)
-  category Category @relation(fields: [category_id], references: [id])
-  category_id String
-  creator User @relation(fields: [creator_id], references: [id])
-  creator_id String
-}
-
-model Category {
-  id String @id @default(cuid())
-  name String @unique
-  products Product[]
-}
 
 model AuthToken {
   id String @id @default(cuid())
@@ -119,3 +102,59 @@ model AuthToken {
   updated_at DateTime @updatedAt
 }
 
+
+enum EventType {
+  NORMAL
+  LEVEL_PRIZE
+  GAME_REBATE
+  RECHARGE_PRIZE
+}
+
+enum PrizeType {
+  CARD
+  PHYSICAL
+  COIN
+  GAME
+}
+
+model Prize {
+  id Int @id @default(autoincrement())
+  name String
+  img_path String
+  type PrizeType
+
+  @@unique([name, type])
+}
+
+
+
+model EventGroup {
+  id String @id @default(cuid())
+  banner String?
+  name String
+  code String @unique
+  url String?
+  events Event[]
+  theme String @default("")
+  platform Platform @default(ALL)
+}
+
+model Event {
+  id String @id @default(cuid())
+  code String @unique
+  title String?
+  target String?
+  content String
+  tab_img String @default("")
+  tab_active_img String @default("")
+  event_group EventGroup? @relation(fields: [event_group_id], references: [id])
+  event_group_id String?
+  type EventType @default(NORMAL)
+  start_at DateTime? @db.Timestamp
+  end_at DateTime? @db.Timestamp
+  is_active Boolean @default(true)
+  sort Int @default(autoincrement())
+  rebates Json? @db.JsonB
+  groups Json? @db.JsonB
+  recharges Json? @db.JsonB
+}

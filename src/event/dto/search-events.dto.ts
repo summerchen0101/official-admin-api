@@ -1,21 +1,16 @@
-import { AnnouncementType, Platform } from '@prisma/client';
+import { EventType } from '@prisma/client';
 import { Transform } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator';
 import { PaginateDto } from 'src/dto/paginate.dto';
 
-export class SearchAnnouncementsDto extends PaginateDto {
+export class SearchEventsDto extends PaginateDto {
   @IsString()
   @IsOptional()
-  keyword?: string;
+  event_group_id?: string;
 
-  @IsEnum(Platform)
+  @IsEnum(EventType)
   @IsOptional()
-  @Transform(({ value }) => (value === Platform.ALL ? null : value))
-  platform = null;
-
-  @IsEnum(AnnouncementType)
-  @IsOptional()
-  type = null;
+  type?: EventType;
 
   @IsInt()
   @IsOptional()

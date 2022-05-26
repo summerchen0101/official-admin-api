@@ -1,0 +1,21 @@
+/*
+  Warnings:
+
+  - The values [INFO] on the enum `EventType` will be removed. If these variants are still used in the database, this will fail.
+
+*/
+-- AlterEnum
+BEGIN;
+CREATE TYPE "EventType_new" AS ENUM ('NORMAL', 'LEVEL_PRIZE', 'GAME_REBATE', 'RECHARGE_PRIZE');
+ALTER TABLE "Event" ALTER COLUMN "type" DROP DEFAULT;
+ALTER TABLE "Event" ALTER COLUMN "type" TYPE "EventType_new" USING ("type"::text::"EventType_new");
+ALTER TYPE "EventType" RENAME TO "EventType_old";
+ALTER TYPE "EventType_new" RENAME TO "EventType";
+DROP TYPE "EventType_old";
+ALTER TABLE "Event" ALTER COLUMN "type" SET DEFAULT 'NORMAL';
+COMMIT;
+
+-- AlterTable
+ALTER TABLE "Event" ALTER COLUMN "content" DROP NOT NULL,
+ALTER COLUMN "title" DROP NOT NULL,
+ALTER COLUMN "target" DROP NOT NULL;

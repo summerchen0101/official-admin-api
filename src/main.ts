@@ -5,6 +5,8 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
 
+const port = process.env.PORT || 8080;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -32,6 +34,8 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('apidoc', app, document);
-  await app.listen(process.env.PORT || 8080);
+  await app.listen(port, () => {
+    console.log(`app is running on port ${port}!`);
+  });
 }
 bootstrap();

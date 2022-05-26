@@ -99,12 +99,7 @@ export class UserService {
     });
   }
 
-  async remove(id: string) {
-    await this.findOne(id);
-    try {
-      return await this.prisma.user.delete({ where: { id } });
-    } catch (err) {
-      throw new BadRequestException('failed to delete');
-    }
+  remove(id: string) {
+    return this.prisma.user.delete({ where: { id } });
   }
 }
