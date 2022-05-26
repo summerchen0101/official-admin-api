@@ -133,7 +133,6 @@ model EventGroup {
   banner String?
   name String
   code String @unique
-  url String?
   events Event[]
   theme String @default("")
   platform Platform @default(ALL)

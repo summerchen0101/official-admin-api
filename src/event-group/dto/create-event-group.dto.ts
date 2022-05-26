@@ -22,14 +22,6 @@ export class CreateEventGroupDto
 
   @IsString()
   @IsOptional()
-  info?: string;
-
-  @IsString()
-  @IsOptional()
-  url?: string;
-
-  @IsString()
-  @IsOptional()
   platform?: Platform;
 
   @IsString({ each: true })
