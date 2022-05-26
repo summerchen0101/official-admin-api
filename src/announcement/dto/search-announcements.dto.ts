@@ -6,7 +6,7 @@ import { PaginateDto } from 'src/dto/paginate.dto';
 export class SearchAnnouncementsDto extends PaginateDto {
   @IsString()
   @IsOptional()
-  keyword?: string = '';
+  keyword?: string;
 
   @IsEnum(Platform)
   @IsOptional()
