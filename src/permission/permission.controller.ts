@@ -16,6 +16,11 @@ import { UpdatePermissionDto } from './dto/update-permission.dto';
 export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}
 
+  @Post('batch')
+  batchCreate(@Body('data') list: CreatePermissionDto[]) {
+    return this.permissionService.batchCreate(list);
+  }
+
   @Post()
   create(@Body() createPermissionDto: CreatePermissionDto) {
     return this.permissionService.create(createPermissionDto);

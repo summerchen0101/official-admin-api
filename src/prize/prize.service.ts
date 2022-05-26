@@ -12,7 +12,7 @@ export class PrizeService {
     return this.prisma.prize.create({ data });
   }
 
-  createMany(data: CreatePrizeDto[]) {
+  batchCreate(data: CreatePrizeDto[]) {
     return this.prisma.prize.createMany({
       data,
       skipDuplicates: true,

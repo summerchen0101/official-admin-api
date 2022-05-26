@@ -7,6 +7,13 @@ import { UpdatePermissionDto } from './dto/update-permission.dto';
 @Injectable()
 export class PermissionService {
   constructor(private readonly prisma: PrismaService) {}
+
+  batchCreate(list: CreatePermissionDto[]) {
+    return this.prisma.permission.createMany({
+      data: list,
+      skipDuplicates: true,
+    });
+  }
   create(data: CreatePermissionDto) {
     return this.prisma.permission.create({ data });
   }

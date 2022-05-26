@@ -22,9 +22,9 @@ export class PrizeController {
     return this.prizeService.create(createPrizeDto);
   }
 
-  @Post('multi')
-  createMany(@Body('data') list: CreatePrizeDto[]) {
-    return this.prizeService.createMany(list);
+  @Post('batch')
+  batchCreate(@Body('data') list: CreatePrizeDto[]) {
+    return this.prizeService.batchCreate(list);
   }
 
   @Get('option')

@@ -24,8 +24,8 @@ export class AnnouncementController {
     return this.announcementService.cleanBeforeDay(day);
   }
   @Post('batch')
-  batchCreate(@Body() createAnnouncementDto: CreateAnnouncementDto) {
-    return this.announcementService.create(createAnnouncementDto);
+  batchCreate(@Body('data') list: CreateAnnouncementDto[]) {
+    return this.announcementService.batchCreate(list);
   }
   @Post('oldnews')
   injectFromOld(
