@@ -4,7 +4,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class EventGroupClientService {
   constructor(private readonly prisma: PrismaService) {}
-
   findOne(code: string) {
     return this.prisma.eventGroup.findUnique({
       where: { code },
