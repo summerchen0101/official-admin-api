@@ -91,9 +91,9 @@ export class CreateEventDto {
   @IsNotEmpty()
   content: string;
 
-  @IsString()
+  @IsString({ each: true })
   @IsOptional()
-  event_group_id: string;
+  event_group_ids?: string[];
 
   @IsEnum(EventType)
   type: EventType;

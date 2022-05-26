@@ -146,8 +146,7 @@ model Event {
   content String
   tab_img String @default("")
   tab_active_img String @default("")
-  event_group EventGroup? @relation(fields: [event_group_id], references: [id])
-  event_group_id String?
+  event_groups EventGroup[]
   type EventType @default(NORMAL)
   start_at DateTime? @db.Timestamp
   end_at DateTime? @db.Timestamp

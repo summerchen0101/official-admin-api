@@ -8,12 +8,21 @@ import { UpdateEventDto } from './dto/update-event.dto';
 @Injectable()
 export class EventService {
   constructor(private readonly prisma: PrismaService) {}
-  create(data: CreateEventDto) {
+  create({ event_group_ids, ...data }: CreateEventDto) {
     return this.prisma.event.create({
       data: {
         ...data,
+        event_groups: { connect: event_group_ids?.map((id) => ({ id })) },
         start_at: data.start_at ? new Date(data.start_at + ' GMT+8') : null,
         end_at: data.end_at ? new Date(data.end_at + ' GMT+8') : null,
+      },
+      include: {
+        event_groups: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
   }
@@ -26,14 +35,19 @@ export class EventService {
 
   async findAll(search: SearchEventsDto) {
     const { page, perpage, event_group_id, type, is_active } = search;
+
     const findManyArgs: Prisma.EventFindManyArgs = {
       where: {
-        event_group_id,
+        event_groups: event_group_id && {
+          some: {
+            id: event_group_id,
+          },
+        },
         type,
         is_active: { 0: undefined, 1: true, 2: false }[is_active],
       },
       include: {
-        event_group: {
+        event_groups: {
           select: {
             id: true,
             name: true,
@@ -59,17 +73,26 @@ export class EventService {
   findOne(id: string) {
     return this.prisma.event.findUnique({
       where: { id },
-      include: { event_group: { select: { code: true, name: true } } },
+      include: { event_groups: { select: { code: true, name: true } } },
     });
   }
 
-  update(id: string, data: UpdateEventDto) {
+  update(id: string, { event_group_ids, ...data }: UpdateEventDto) {
     return this.prisma.event.update({
       where: { id },
       data: {
         ...data,
+        event_groups: { connect: event_group_ids?.map((id) => ({ id })) },
         start_at: data.start_at ? new Date(data.start_at + ' GMT+8') : null,
         end_at: data.end_at ? new Date(data.end_at + ' GMT+8') : null,
+      },
+      include: {
+        event_groups: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
   }

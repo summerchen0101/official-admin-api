@@ -8,7 +8,7 @@ export class EventClientService {
   findOne(code: string) {
     return this.prisma.event.findUnique({
       where: { code },
-      include: { event_group: { select: { code: true, name: true } } },
+      include: { event_groups: { select: { code: true, name: true } } },
     });
   }
 }
