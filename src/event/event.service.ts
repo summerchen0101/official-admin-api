@@ -25,8 +25,13 @@ export class EventService {
   }
 
   async findAll(search: SearchEventsDto) {
-    const { page, perpage, keyword, type, is_active } = search;
+    const { page, perpage, event_group_id, type, is_active } = search;
     const findManyArgs: Prisma.EventFindManyArgs = {
+      where: {
+        event_group_id,
+        type,
+        is_active: { 0: undefined, 1: true, 2: false }[is_active],
+      },
       include: {
         event_group: {
           select: {
@@ -65,6 +70,15 @@ export class EventService {
         ...data,
         start_at: data.start_at ? new Date(data.start_at + ' GMT+8') : null,
         end_at: data.end_at ? new Date(data.end_at + ' GMT+8') : null,
+      },
+    });
+  }
+
+  active(id: string, is_active: boolean) {
+    return this.prisma.event.update({
+      where: { id },
+      data: {
+        is_active,
       },
     });
   }

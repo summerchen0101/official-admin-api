@@ -10,6 +10,8 @@ export class EventGroupClientService {
       where: { code },
       include: {
         events: {
+          where: { is_active: true },
+          orderBy: { sort: 'asc' },
           select: {
             code: true,
             title: true,

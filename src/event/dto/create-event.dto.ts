@@ -80,11 +80,11 @@ export class CreateEventDto {
   tab_active_img: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   title: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   target: string;
 
   @IsString()

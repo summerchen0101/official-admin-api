@@ -27,8 +27,13 @@ export class EventGroupService {
   }
 
   async findAll(search: SearchEventGroupsDto) {
-    const { page, perpage, keyword, is_active } = search;
+    const { page, perpage, name } = search;
     const findManyArgs: Prisma.EventGroupFindManyArgs = {
+      where: {
+        name: {
+          contains: name,
+        },
+      },
       include: {
         events: { select: { id: true, title: true, code: true } },
       },

@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseBoolPipe,
   Patch,
   Post,
   Query,
@@ -40,6 +41,14 @@ export class EventController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
     return this.eventService.update(id, updateEventDto);
+  }
+
+  @Patch(':id/active')
+  active(
+    @Param('id') id: string,
+    @Body('is_active', ParseBoolPipe) is_active: boolean,
+  ) {
+    return this.eventService.active(id, is_active);
   }
 
   @Delete(':id')

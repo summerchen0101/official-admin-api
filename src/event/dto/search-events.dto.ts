@@ -1,15 +1,16 @@
+import { EventType } from '@prisma/client';
 import { Transform } from 'class-transformer';
-import { IsInt, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator';
 import { PaginateDto } from 'src/dto/paginate.dto';
 
 export class SearchEventsDto extends PaginateDto {
   @IsString()
   @IsOptional()
-  keyword?: string = '';
+  event_group_id?: string;
 
-  @IsString()
+  @IsEnum(EventType)
   @IsOptional()
-  type = null;
+  type?: EventType;
 
   @IsInt()
   @IsOptional()

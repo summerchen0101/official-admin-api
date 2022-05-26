@@ -108,7 +108,6 @@ enum EventType {
   LEVEL_PRIZE
   GAME_REBATE
   RECHARGE_PRIZE
-  INFO
 }
 
 enum PrizeType {
@@ -143,8 +142,8 @@ model EventGroup {
 model Event {
   id String @id @default(cuid())
   code String @unique
-  title String
-  target String
+  title String?
+  target String?
   content String
   tab_img String @default("")
   tab_active_img String @default("")
