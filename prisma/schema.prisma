@@ -76,7 +76,7 @@ enum Platform {
 model Announcement {
   id String @id @default(cuid())
   title String
-  content String
+  content String?
   start_at DateTime? @db.Timestamp()
   end_at DateTime? @db.Timestamp()
   created_at DateTime @default(now())

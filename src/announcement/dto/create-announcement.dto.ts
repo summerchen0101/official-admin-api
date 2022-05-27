@@ -22,7 +22,7 @@ export class CreateAnnouncementDto implements Prisma.AnnouncementCreateInput {
   @ApiProperty({ default: '測試標題' })
   title: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @ApiProperty({ default: '測試內容' })
   content: string;
