@@ -108,6 +108,7 @@ enum EventType {
   LEVEL_PRIZE
   GAME_REBATE
   RECHARGE_PRIZE
+  CUSTOM_TABLE
 }
 
 enum PrizeType {
@@ -156,4 +157,5 @@ model Event {
   rebates Json? @db.JsonB
   groups Json? @db.JsonB
   recharges Json? @db.JsonB
+  custom_tables Json? @db.JsonB
 }
