@@ -1,12 +1,11 @@
-import { Prisma, EventType } from '@prisma/client';
-import { Transform, Type } from 'class-transformer';
+import { EventType, Prisma } from '@prisma/client';
+import { Type } from 'class-transformer';
 import {
-  IsArray,
   IsBoolean,
   IsEnum,
   IsInt,
-  IsISO8601,
   IsNotEmpty,
+  IsObject,
   IsOptional,
   IsString,
   ValidateIf,
@@ -50,6 +49,36 @@ class RechargePrize {
 
   @IsInt()
   count: number;
+}
+
+enum CustomColumnType {
+  TEXT = 1,
+  ICON = 2,
+  TEXT_ICON = 3,
+}
+
+class CustomColumn {
+  @IsString()
+  key: string;
+
+  @IsString()
+  name: string;
+
+  @IsEnum(CustomColumnType)
+  type: CustomColumnType;
+}
+
+class CustomTable {
+  @IsString()
+  title?: string;
+
+  @ValidateNested()
+  @Type(() => CustomColumn)
+  @IsNotEmpty()
+  columns: CustomColumn[];
+
+  @IsObject({ each: true })
+  rows: object[];
 }
 
 export class CreateEventDto {
@@ -115,4 +144,10 @@ export class CreateEventDto {
   @IsNotEmpty()
   @ValidateIf((obj) => obj.type === EventType.RECHARGE_PRIZE)
   recharges: Prisma.JsonArray;
+
+  @ValidateNested()
+  @Type(() => CustomTable)
+  @IsNotEmpty()
+  @ValidateIf((obj) => obj.type === EventType.CUSTOM_TABLE)
+  custom_tables: Prisma.JsonArray;
 }
