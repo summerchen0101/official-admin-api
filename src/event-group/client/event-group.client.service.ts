@@ -18,6 +18,16 @@ export class EventGroupClientService {
             tab_active_img: true,
           },
         },
+        event_expo: {
+          include: {
+            event_groups: {
+              select: {
+                code: true,
+                platform: true,
+              },
+            },
+          },
+        },
       },
     });
   }
