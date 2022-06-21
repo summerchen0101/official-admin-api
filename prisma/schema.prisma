@@ -138,6 +138,8 @@ model EventGroup {
   events Event[]
   theme String @default("")
   platform Platform @default(ALL)
+  event_expo EventExpo? @relation(fields: [event_expo_id], references: [id])
+  event_expo_id String?
 }
 
 model Event {
@@ -158,4 +160,11 @@ model Event {
   groups Json? @db.JsonB
   recharges Json? @db.JsonB
   custom_tables Json? @db.JsonB
+}
+
+
+model EventExpo {
+  id String @id @default(cuid())
+  code String @unique
+  event_groups EventGroup[]
 }
