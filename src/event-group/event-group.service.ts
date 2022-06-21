@@ -22,7 +22,13 @@ export class EventGroupService {
 
   option() {
     return this.prisma.eventGroup.findMany({
-      select: { id: true, name: true, code: true },
+      select: {
+        id: true,
+        name: true,
+        code: true,
+        platform: true,
+        event_expo_id: true,
+      },
     });
   }
 

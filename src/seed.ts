@@ -116,6 +116,37 @@ async function main() {
       },
 
       {
+        name: '活動曝光管理-列表',
+        controller: 'EventExpoController',
+        handler: 'findAll',
+      },
+      {
+        name: '活動曝光管理-查看',
+        controller: 'EventExpoController',
+        handler: 'findOne',
+      },
+      {
+        name: '活動曝光管理-新增',
+        controller: 'EventExpoController',
+        handler: 'create',
+      },
+      {
+        name: '活動曝光管理-修改',
+        controller: 'EventExpoController',
+        handler: 'update',
+      },
+      {
+        name: '活動曝光管理-刪除',
+        controller: 'EventExpoController',
+        handler: 'remove',
+      },
+      {
+        name: '活動曝光管理-選項',
+        controller: 'EventExpoController',
+        handler: 'option',
+      },
+
+      {
         name: '管理員管理-列表',
         controller: 'UserController',
         handler: 'findAll',

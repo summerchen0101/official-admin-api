@@ -25,12 +25,14 @@ export class EventExpoService {
     const findManyArgs: Prisma.EventExpoFindManyArgs = {
       where: {
         code,
-        event_groups: {
-          some: { id: event_group_id },
-        },
+        event_groups: event_group_id
+          ? {
+              some: { id: event_group_id },
+            }
+          : undefined,
       },
       include: {
-        event_groups: { select: { id: true, name: true, code: true } },
+        event_groups: { select: { id: true, name: true, platform: true } },
       },
       take: perpage,
       skip: (page - 1) * perpage,
