@@ -73,6 +73,12 @@ enum Platform {
   ALL
 }
 
+model PlatformSite {
+  host String @id
+  platform Platform
+  desc String?
+}
+
 model Announcement {
   id String @id @default(cuid())
   title String
