@@ -14,6 +14,8 @@ import { EventGroupModule } from './event-group/event-group.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { PrizeModule } from './prize/prize.module';
+import { EventExpoModule } from './event-expo/event-expo.module';
+import { SiteModule } from './site/site.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { PrizeModule } from './prize/prize.module';
     EventModule,
     EventGroupModule,
     PrizeModule,
+    EventExpoModule,
+    SiteModule,
   ],
   controllers: [AppController],
   providers: [
