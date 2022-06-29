@@ -46,9 +46,9 @@ jobs:
           script: |
             cd app
             echo "Restart containers"
-            sudo docker-compose -f "docker-compose.yml" up --force-recreate -d --build
+            docker-compose -f "docker-compose.yml" up --force-recreate -d --build
             echo "Clean image"
-            sudo docker image prune -f
+            docker image prune -f
 
 
       - name: Telegram succeeded notification
