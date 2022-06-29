@@ -2,7 +2,7 @@ name: Dev CI
 on:
   push:
     branches:
-      - "dev"
+      - "master"
 
 env:
   REPO_PATH: https://github.com/${{ github.repository }}/commit/${{github.sha}}
