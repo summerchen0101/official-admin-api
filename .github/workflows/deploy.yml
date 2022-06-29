@@ -80,7 +80,7 @@ jobs:
 
             Branch: *${{ github.ref_name }}*
 
-            `${{ github.event.commits[0].message }}`
+            `${{ github.event.head_commit.message }}`
 
             Commit by *${{ github.actor }}*  [↗↗↗](${{ env.REPO_PATH }})
 
