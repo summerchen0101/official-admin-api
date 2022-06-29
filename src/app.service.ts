@@ -8,4 +8,8 @@ export class AppService {
     private readonly prisma: PrismaService,
     private readonly configService: ConfigService,
   ) {}
+
+  getConfigVar(): string {
+    return this.configService.get('FOO');
+  }
 }
