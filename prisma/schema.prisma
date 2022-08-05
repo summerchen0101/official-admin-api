@@ -174,3 +174,8 @@ model EventExpo {
   code String @unique
   event_groups EventGroup[]
 }
+
+model RawData {
+  code String @id
+  data Json @db.JsonB
+}

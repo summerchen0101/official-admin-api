@@ -16,6 +16,7 @@ import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { PrizeModule } from './prize/prize.module';
 import { EventExpoModule } from './event-expo/event-expo.module';
 import { SiteModule } from './site/site.module';
+import { RawModule } from './raw/raw.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { SiteModule } from './site/site.module';
     PrizeModule,
     EventExpoModule,
     SiteModule,
+    RawModule,
   ],
   controllers: [AppController],
   providers: [
