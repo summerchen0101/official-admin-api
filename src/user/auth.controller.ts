@@ -28,12 +28,16 @@ export class AuthController {
     return this.authService.signin(signinDto);
   }
 
+  @Public()
   @Post('signout')
   async signout(@Headers() headers) {
     if (headers.authorization) {
       const token = headers.authorization.replace('Bearer ', '');
-      const authToken = await this.tokenService.remove({ token });
-      return { success: true, user_id: authToken.user_id };
+      const auth = await this.tokenService.findOne({ token });
+      if (auth) {
+        const authToken = await this.tokenService.remove({ token });
+        return { success: true, user_id: authToken.user_id };
+      }
     }
   }
 }
